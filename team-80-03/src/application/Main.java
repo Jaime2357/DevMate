@@ -12,7 +12,7 @@ import javafx.fxml.FXMLLoader;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {	
-		//local comment test
+		// local comment test
 		try {
 			HBox mainBox = (HBox)FXMLLoader.load(getClass().getClassLoader().getResource("view/Main.fxml"));
 			Scene scene = new Scene(mainBox);
