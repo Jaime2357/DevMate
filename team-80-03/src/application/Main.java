@@ -16,7 +16,7 @@ public class Main extends Application {
 		try {
 			HBox mainBox = (HBox)FXMLLoader.load(getClass().getClassLoader().getResource("view/Main.fxml"));
 			Scene scene = new Scene(mainBox);
-			scene.getStylesheets().add(getClass().getClassLoader().getResource("css/application.css").toExternalForm());
+			//scene.getStylesheets().add(getClass().getClassLoader().getResource("css/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			// set reference of Hbox mainBox in the commonObjs object
