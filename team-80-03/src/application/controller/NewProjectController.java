@@ -72,14 +72,10 @@ public class NewProjectController {
 	            
 	         // home page url
 	    		URL url = getClass().getClassLoader().getResource("view/ViewData.fxml");
-	            System.out.println("getting to" + url);
 
 	    		try { // load home page into mainBox
-		            System.out.println("good2");
 
 	    			AnchorPane thepane = (AnchorPane)FXMLLoader.load(url); // convert to anchor pane
-		            System.out.println("good");
-
 	    			// reference of mainBox
 	    			HBox mainBox = commonObjs.getMainBox();
 	    				

@@ -68,7 +68,7 @@ public class ViewDataController implements Initializable {
             e.printStackTrace();
         }
         
-        System.out.println(projects.toString());
+//        System.out.println(projects.toString());
         return projects;
     }
 
