@@ -13,6 +13,7 @@
             <Font size="24.0" />
          </font>
       </Label>
+      
       <TextField fx:id="projName" layoutX="35.0" layoutY="96.0" />
       <DatePicker fx:id="datePicker" layoutX="35.0" layoutY="164.0" onShown="#currentDate" />
       <TextArea fx:id="projDescr" layoutX="34.0" layoutY="234.0" prefHeight="90.0" prefWidth="333.0" />

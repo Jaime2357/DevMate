@@ -2,15 +2,21 @@ package application.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import application.CommonObjs;
+import application.sqliteConnection;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 
 /**
  * This class is for controlling the New Project page of the application.
@@ -36,11 +42,57 @@ public class NewProjectController {
 	/**
 	 * When user clicks the 'Save' button, save the input from text field, text area, and date picker.
 	 */
-	@FXML public void saveNewProjectOp() {
-		// get input
-		String projectName = projName.getText();
-		String projectDesc = projDescr.getText();
-		LocalDate date = datePicker.getValue();
+//	@FXML public void saveNewProjectOp() {
+//		// get input
+//		String projectName = projName.getText();
+//		String projectDesc = projDescr.getText();
+//		LocalDate date = datePicker.getValue();
+//		
+//		Connection con = sqliteConnection.connect();
+//		PreparedStatement ps = null;
+//		try {
+//			String sql = "INSERT INTO Projects(Name, Date, Description) VALUES(?, ?, ?)";
+//			ps = con.prepareStatement(sql);
+//			ps.setString(1, projectName);
+//			ps.setString(2, date.toString());
+//			ps.setString(3, projectDesc);
+//			ps.execute();
+//			System.out.println("Data Inserted");
+//		}catch(SQLException e){
+//			System.out.println(e.toString());
+//		}
+//		
+//	}
+	@FXML
+	public void saveNewProjectOp() {
+	    // get input
+	    String projectName = projName.getText();
+	    String projectDesc = projDescr.getText();
+	    LocalDate date = datePicker.getValue();
+	 	
+	 	
+	    if (projectName.isEmpty() || date == null) {
+	        // Throw an exception or handle the error as needed
+	        // Display an error message to the user
+	    	Alert formError = new Alert(Alert.AlertType.ERROR);
+	    	formError.setTitle("Submit Error");
+	    	formError.setContentText("Project name cannot be empty");
+	    	formError.showAndWait();
+	    } else {
+	        Connection con = sqliteConnection.connect();
+	        PreparedStatement ps = null;
+	        try {
+	            String sql = "INSERT INTO Projects(Name, Date, Description) VALUES(?, ?, ?)";
+	            ps = con.prepareStatement(sql);
+	            ps.setString(1, projectName);
+	            ps.setString(2, date.toString());
+	            ps.setString(3, projectDesc);
+	            ps.execute();
+	            System.out.println("Data Inserted");
+	        } catch (SQLException e) {
+	            System.out.println(e.toString());
+	        }
+	    }
 	}
 
 	/**
