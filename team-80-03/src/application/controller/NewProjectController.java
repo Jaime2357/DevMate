@@ -42,27 +42,7 @@ public class NewProjectController {
 	/**
 	 * When user clicks the 'Save' button, save the input from text field, text area, and date picker.
 	 */
-//	@FXML public void saveNewProjectOp() {
-//		// get input
-//		String projectName = projName.getText();
-//		String projectDesc = projDescr.getText();
-//		LocalDate date = datePicker.getValue();
-//		
-//		Connection con = sqliteConnection.connect();
-//		PreparedStatement ps = null;
-//		try {
-//			String sql = "INSERT INTO Projects(Name, Date, Description) VALUES(?, ?, ?)";
-//			ps = con.prepareStatement(sql);
-//			ps.setString(1, projectName);
-//			ps.setString(2, date.toString());
-//			ps.setString(3, projectDesc);
-//			ps.execute();
-//			System.out.println("Data Inserted");
-//		}catch(SQLException e){
-//			System.out.println(e.toString());
-//		}
-//		
-//	}
+
 	@FXML
 	public void saveNewProjectOp() {
 	    // get input

@@ -21,17 +21,10 @@
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>
-            <Label layoutX="27.0" layoutY="36.0" text="DEVMATE">
+            <Label layoutX="69.0" layoutY="37.0" text="DEVMATE">
                <font>
                   <Font name="Helvetica Bold" size="22.0" />
                </font>
-               <graphic>
-                  <FontAwesomeIcon fill="BEIGE" glyphName="LAPTOP" size="1.5em" strokeWidth="0.0">
-                     <font>
-                        <Font size="12.0" />
-                     </font>
-                  </FontAwesomeIcon>
-               </graphic>
                <textFill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -45,6 +38,16 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
+            <FontAwesomeIcon fill="BEIGE" glyphName="LAPTOP" layoutX="14.0" layoutY="68.0" size="3.5em" strokeWidth="0.0" text="">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </FontAwesomeIcon>
+            <FontAwesomeIcon fill="BEIGE" glyphName="CODE" layoutX="25.0" layoutY="57.0" size="1.8em" strokeWidth="0.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </FontAwesomeIcon>
          </children>
       </AnchorPane>
    </children>
