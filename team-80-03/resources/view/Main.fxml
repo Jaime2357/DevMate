@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import de.jensd.fx.glyphs.testapps.*?>
 <?import javafx.scene.image.*?>
@@ -16,9 +17,34 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: darkcyan;">
          <children>
-            <Button layoutX="58.0" layoutY="114.0" mnemonicParsing="false" onAction="#showNewProjectPageOp" text="New Project" />
-            <Label layoutX="79.0" layoutY="43.0" text="Label" />
-            <SVGPath content="M384 96V320H64L64 96H384zM64 32C28.7 32 0 60.7 0 96V320c0 35.3 28.7 64 64 64H181.3l-10.7 32H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H352c17.7 0 32-14.3 32-32s-14.3-32-32-32H277.3l-10.7-32H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm464 0c-26.5 0-48 21.5-48 48V432c0 26.5 21.5 48 48 48h64c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H528zm16 64h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H544c-8.8 0-16-7.2-16-16s7.2-16 16-16zm-16 80c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H544c-8.8 0-16-7.2-16-16zm32 160a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" fillRule="EVEN_ODD" layoutX="-85.0" layoutY="109.0" opacity="0.43" />
+            <Button layoutX="50.0" layoutY="159.0" mnemonicParsing="false" onAction="#showNewProjectPageOp" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: beige;" text="New Project" textFill="DARKCYAN">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
+            <Label layoutX="27.0" layoutY="36.0" text="DEVMATE">
+               <font>
+                  <Font name="Helvetica Bold" size="22.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIcon fill="BEIGE" glyphName="LAPTOP" size="1.5em" strokeWidth="0.0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </FontAwesomeIcon>
+               </graphic>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="BEIGE" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill></Label>
+            <Button layoutX="50.0" layoutY="110.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: beige;" text="View Data" textFill="DARKCYAN">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>
