@@ -5,15 +5,13 @@ import java.time.LocalDate;
 public class ProjectDAO {
 	private String projectName;
 	private String projectDesc;
-	private LocalDate date;
-	private Integer projectId;
+	private String date;
 	
-	public ProjectDAO(String projectName, String projectDesc, LocalDate date, Integer projectId) {
+	public ProjectDAO(String projectName, String projectDesc, String date) {
 		// TODO Auto-generated constructor stub
 		this.projectName = projectName;
 		this.projectDesc = projectDesc;
 		this.date = date;
-		this.projectId = projectId;
 	}
 	
 	public String getProjectName() {
@@ -28,17 +26,18 @@ public class ProjectDAO {
 	public void setProjectDesc(String projectDesc) {
 		this.projectDesc = projectDesc;
 	}
-	public Integer getProjectId() {
-		return projectId;
-	}
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
-	}
-	public LocalDate getDate() {
+	
+	public String getDate() {
 		return date;
 	}
-	public void setDate(LocalDate date) {
+	public void String(String date) {
 		this.date = date;
+	}
+	public String toString() {
+		String a;
+		a = "Name " + getProjectName() +  "; Date " + getDate() + "; Des " + getProjectDesc();
+		return a;
+		
 	}
 	
 	

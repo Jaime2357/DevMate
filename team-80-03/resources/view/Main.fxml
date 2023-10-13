@@ -17,7 +17,7 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: darkcyan;">
          <children>
-            <Button layoutX="50.0" layoutY="159.0" mnemonicParsing="false" onAction="#showNewProjectPageOp" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: beige;" text="New Project" textFill="DARKCYAN">
+            <Button layoutX="50.0" layoutY="113.0" mnemonicParsing="false" onAction="#showNewProjectPageOp" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: beige;" text="New Project" textFill="DARKCYAN">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>
@@ -33,7 +33,7 @@
                      </stops>
                   </LinearGradient>
                </textFill></Label>
-            <Button layoutX="50.0" layoutY="110.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: beige;" text="View Data" textFill="DARKCYAN">
+            <Button layoutX="50.0" layoutY="168.0" mnemonicParsing="false" onAction="#showViewData" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: beige;" text="View Data" textFill="DARKCYAN">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -48,6 +48,14 @@
                   <Font size="12.0" />
                </font>
             </FontAwesomeIcon>
+            <Hyperlink layoutX="24.0" layoutY="342.0" onAction="#goToHome" text="Back to Home page" textFill="BEIGE">
+               <font>
+                  <Font name="Helvetica Bold Oblique" size="13.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIcon fill="BEIGE" glyphName="HOME" size="1.5em" />
+               </graphic>
+            </Hyperlink>
          </children>
       </AnchorPane>
    </children>

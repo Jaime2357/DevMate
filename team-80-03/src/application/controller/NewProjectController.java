@@ -69,6 +69,32 @@ public class NewProjectController {
 	            ps.setString(3, projectDesc);
 	            ps.execute();
 	            System.out.println("Data Inserted");
+	            
+	         // home page url
+	    		URL url = getClass().getClassLoader().getResource("view/ViewData.fxml");
+	            System.out.println("getting to" + url);
+
+	    		try { // load home page into mainBox
+		            System.out.println("good2");
+
+	    			AnchorPane thepane = (AnchorPane)FXMLLoader.load(url); // convert to anchor pane
+		            System.out.println("good");
+
+	    			// reference of mainBox
+	    			HBox mainBox = commonObjs.getMainBox();
+	    				
+	    			// remove child 1 if it exists
+	    			if (mainBox.getChildren().size() > 1) { // both child 0 and 1 exist
+	    				mainBox.getChildren().remove(1);
+	    			}
+	    				
+	    			// add Home page to the mainBox as child 1
+	    			mainBox.getChildren().add(thepane);
+	    				
+	    		} catch (IOException e) {
+	    			e.printStackTrace();
+	    		}		
+	            
 	        } catch (SQLException e) {
 	            System.out.println(e.toString());
 	        }
@@ -92,30 +118,7 @@ public class NewProjectController {
 		currentDate(); // reset to current date
 	}
 
-	/**
-	 * When user clicks 'Back to Home page', application navigates to the Home page.
-	 */
-	@FXML public void goToHome() {
-		// home page url
-		URL url = getClass().getClassLoader().getResource("view/HomePage.fxml");
-		
-		try { // load home page into mainBox
-			AnchorPane pane1 = (AnchorPane)FXMLLoader.load(url); // convert to anchor pane
-				
-			// reference of mainBox
-			HBox mainBox = commonObjs.getMainBox();
-				
-			// remove child 1 if it exists
-			if (mainBox.getChildren().size() > 1) { // both child 0 and 1 exist
-				mainBox.getChildren().remove(1);
-			}
-				
-			// add Home page to the mainBox as child 1
-			mainBox.getChildren().add(pane1);
-				
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
-	}
+	
+	
 
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: beige;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="50.0" layoutY="33.0" prefHeight="202.0" prefWidth="300.0" text="Welcome to DevMate" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Helvetica Bold" size="50.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0" startX="0.6346153846153847">
+               <stops>
+                  <Stop color="#00818a" />
+                  <Stop color="#1d099e" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <FontAwesomeIcon glyphName="LAPTOP" layoutX="116.0" layoutY="334.0" size="12em">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0" startX="0.6346153846153847">
+               <stops>
+                  <Stop color="#00818a" />
+                  <Stop color="#1d099e" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+      </FontAwesomeIcon>
+      <FontAwesomeIcon glyphName="CODE" layoutX="155.0" layoutY="295.0" size="6em" text="" wrappingWidth="104.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0" startX="0.6346153846153847">
+               <stops>
+                  <Stop color="#00818a" />
+                  <Stop color="#1d099e" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+      </FontAwesomeIcon>
+   </children>
+</AnchorPane>
