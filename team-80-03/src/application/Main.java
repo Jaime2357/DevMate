@@ -23,6 +23,7 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
+			
 			// set reference of Hbox mainBox in the commonObjs object
 			CommonObjs commonObjs = CommonObjs.getInstance();
 			commonObjs.setMainBox(mainBox);

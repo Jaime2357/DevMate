@@ -1,7 +1,5 @@
 package application;
 
-import java.time.LocalDate;
-
 public class ProjectDAO {
 	private String projectName;
 	private String projectDesc;
@@ -37,7 +35,6 @@ public class ProjectDAO {
 		String a;
 		a = "Name " + getProjectName() +  "; Date " + getDate() + "; Des " + getProjectDesc();
 		return a;
-		
 	}
 	
 	
