@@ -34,7 +34,7 @@ public class ViewDataController implements Initializable {
      */
     public void showData(){    
     	ObservableList<ProjectBean> projects = ProjectDAO.getProjectsFromDB();
-    	//String param of PropertyValueFactory is private variable names of ProjectDAO
+    	//String param of PropertyValueFactory is private variable names of ProjectBean
     	nameColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
     	dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
     	descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("projectDesc"));
