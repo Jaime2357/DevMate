@@ -32,7 +32,7 @@
             </LinearGradient>
          </fill>
       </FontAwesomeIcon>
-      <FontAwesomeIcon glyphName="CODE" layoutX="155.0" layoutY="295.0" size="6em" text="" wrappingWidth="104.0">
+      <FontAwesomeIcon glyphName="CODE" layoutX="158.0" layoutY="293.0" size="6em" text="" wrappingWidth="104.0">
          <fill>
             <LinearGradient endX="1.0" endY="1.0" startX="0.6346153846153847">
                <stops>
