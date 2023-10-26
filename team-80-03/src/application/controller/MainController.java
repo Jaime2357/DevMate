@@ -71,7 +71,6 @@ public class MainController {
 	/**
 	 * When the 'New Ticket' button is clicked, application navigates to the Add New Ticket page.
 	 */
-	
 	@FXML public void showNewTicketPage() {
 
 		// View Data page fxml file
@@ -91,6 +90,28 @@ public class MainController {
 			e.printStackTrace();
 		}
 	} 
+	
+	/**
+	 * When the 'New Comment' button is clicked, application navigates to the Add New Comment page.
+	 */
+	@FXML public void showNewCommentPage() {
+		// View Data page fxml file
+		URL url = getClass().getClassLoader().getResource("view/NewCommentPage.fxml");
+				
+		// Load the page into the mainBox
+		try {
+			AnchorPane pane2 = (AnchorPane)FXMLLoader.load(url);
+					
+			if (mainBox.getChildren().size() > 1) {
+				mainBox.getChildren().remove(1);
+			}
+			
+			mainBox.getChildren().add(pane2);
+					
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	/**
@@ -144,5 +165,6 @@ public class MainController {
 			e.printStackTrace();
 		}		
 	}
+
 	
 }

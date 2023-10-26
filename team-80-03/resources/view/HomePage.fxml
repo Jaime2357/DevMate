@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: beige;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: beige;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="50.0" layoutY="33.0" prefHeight="202.0" prefWidth="300.0" text="Welcome to DevMate" textAlignment="CENTER" wrapText="true">
+      <Label layoutX="75.0" layoutY="33.0" prefHeight="202.0" prefWidth="300.0" text="Welcome to DevMate" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Helvetica Bold" size="50.0" />
          </font>
@@ -22,7 +22,7 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <FontAwesomeIcon glyphName="LAPTOP" layoutX="116.0" layoutY="334.0" size="12em">
+      <FontAwesomeIcon glyphName="LAPTOP" layoutX="141.0" layoutY="334.0" size="12em">
          <fill>
             <LinearGradient endX="1.0" endY="1.0" startX="0.6346153846153847">
                <stops>
@@ -32,7 +32,7 @@
             </LinearGradient>
          </fill>
       </FontAwesomeIcon>
-      <FontAwesomeIcon glyphName="CODE" layoutX="158.0" layoutY="293.0" size="6em" text="" wrappingWidth="104.0">
+      <FontAwesomeIcon glyphName="CODE" layoutX="183.0" layoutY="293.0" size="6em" text="" wrappingWidth="104.0">
          <fill>
             <LinearGradient endX="1.0" endY="1.0" startX="0.6346153846153847">
                <stops>

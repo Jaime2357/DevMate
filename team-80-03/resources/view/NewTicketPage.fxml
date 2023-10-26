@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: beige;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.NewTicketController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: beige;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.NewTicketController">
    <children>
       <Label layoutX="31.0" layoutY="23.0" text="Add New Ticket">
          <font>
@@ -17,12 +17,12 @@
       </Label>
       
       <TextField fx:id="ticketName" layoutX="35.0" layoutY="164.0" />
-      <TextArea fx:id="ticketDescr" layoutX="34.0" layoutY="234.0" prefHeight="90.0" prefWidth="333.0" />
+      <TextArea fx:id="ticketDescr" layoutX="34.0" layoutY="234.0" prefHeight="200.0" prefWidth="375.0" />
       <Label layoutX="35.0" layoutY="76.0" prefHeight="17.0" prefWidth="118.0" text="Project Selection *" />
       <Label layoutX="35.0" layoutY="144.0" prefHeight="17.0" prefWidth="101.0" text="Title *" />
       <Label layoutX="35.0" layoutY="214.0" prefHeight="17.0" prefWidth="139.0" text="Description (optional)" />
-      <Button layoutX="223.0" layoutY="350.0" mnemonicParsing="false" onAction="#saveNewTicket" prefHeight="27.0" prefWidth="75.0" style="-fx-background-color: darkcyan;" text="Submit" textFill="WHITE" />
-      <Button layoutX="116.0" layoutY="350.0" mnemonicParsing="false" onAction="#cancel" prefHeight="27.0" prefWidth="75.0" style="-fx-background-color: #ceeeee;" text="Cancel" textFill="DARKCYAN" />
+      <Button layoutX="238.0" layoutY="453.0" mnemonicParsing="false" onAction="#saveNewTicket" prefHeight="27.0" prefWidth="75.0" style="-fx-background-color: darkcyan;" text="Submit" textFill="WHITE" />
+      <Button layoutX="131.0" layoutY="453.0" mnemonicParsing="false" onAction="#cancel" prefHeight="27.0" prefWidth="75.0" style="-fx-background-color: #ceeeee;" text="Cancel" textFill="DARKCYAN" />
       <ChoiceBox fx:id="projSelection" layoutX="34.0" layoutY="96.0" prefWidth="150.0" />
    </children>
 </AnchorPane>
