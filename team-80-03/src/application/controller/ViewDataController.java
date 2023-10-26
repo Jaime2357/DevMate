@@ -1,86 +1,51 @@
 package application.controller;
 
-import java.io.*;
 import java.net.URL;
-import java.sql.*;
-import java.sql.Date;
-import java.util.*;
-
-import javax.sound.midi.SysexMessage;
-
+import java.util.ResourceBundle;
 import application.CommonObjs;
-import application.ProjectDAO;
-import application.sqliteConnection;
+import application.bean.ProjectBean;
+import application.dataAccess.ProjectDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.*;
-import javafx.scene.control.*;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import java.time.LocalDate;
 
+/**
+ * This class is for controlling the View Data page of the application.
+ */
 public class ViewDataController implements Initializable {
 	private CommonObjs commonObjs = CommonObjs.getInstance();
-	ObservableList<ProjectDAO> projects = FXCollections.observableArrayList();
+	ObservableList<ProjectBean> projects = FXCollections.observableArrayList();
     
     @FXML
-    private TableView<ProjectDAO> projectTable;
+    private TableView<ProjectBean> projectTable;
     @FXML
-    private TableColumn<ProjectDAO, String> nameColumn; 
+    private TableColumn<ProjectBean, String> nameColumn; 
     @FXML
-    private TableColumn<ProjectDAO, String> dateColumn;
+    private TableColumn<ProjectBean, String> dateColumn;
     @FXML
-    private TableColumn<ProjectDAO, String> descriptionColumn;
+    private TableColumn<ProjectBean, String> descriptionColumn;
 
-    
+    /**
+     * To display the project data in the table.
+     */
     public void showData(){    
-    	getProjectsFromDB();
-    	//String param of PropertyValueFactory is private variable names of ProjectDAO
+    	ObservableList<ProjectBean> projects = ProjectDAO.getProjectsFromDB();
+    	//String param of PropertyValueFactory is private variable names of ProjectBean
     	nameColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
     	dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
     	descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("projectDesc"));
     	
         projectTable.setItems(projects);
-        
-    }
-    
-    public ObservableList<ProjectDAO> getProjectsFromDB() {
-
-        try {
-            Connection con = sqliteConnection.connect();
-            Statement statement = con.createStatement();
-            String query = "SELECT Name, Date, Description FROM Projects";
-            ResultSet resultSet = statement.executeQuery(query);
-
-            while (resultSet.next()) {
-                String name = resultSet.getString("Name");
-                String date = resultSet.getString("Date");
-                String description = resultSet.getString("Description");
-                ProjectDAO project = new ProjectDAO(name, description, date);
-                projects.add(project);
-            }
-
-            resultSet.close();
-            statement.close();
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
-//        System.out.println(projects.toString());
-        return projects;
     }
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		showData();
 		
 	}
-
-
-
-
 
 }

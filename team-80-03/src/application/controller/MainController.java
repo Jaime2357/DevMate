@@ -41,10 +41,11 @@ public class MainController {
 		}
 	}
 
+	
 	/**
-	 * When the New Project button is clicked, the fxml file will be inserted into the main page.
+	 * When the 'New Project' button is clicked, application navigates to the Add New Project page.
 	 */
-	@FXML public void showNewProjectPageOp() {
+	@FXML public void showNewProjectPage() {
 		
 		// New Project page fxml file
 		URL url = getClass().getClassLoader().getResource("view/NewProjectPage.fxml");
@@ -66,27 +67,53 @@ public class MainController {
 		}
 	}
 	
-	@FXML public void showViewData() {
+	
+	/**
+	 * When the 'New Ticket' button is clicked, application navigates to the Add New Ticket page.
+	 */
+	
+	@FXML public void showNewTicketPage() {
 
-		// New Project page fxml file
-		URL url = getClass().getClassLoader().getResource("view/ViewData.fxml");
+		// View Data page fxml file
+		URL url = getClass().getClassLoader().getResource("view/NewTicketPage.fxml");
 		
-		// Load the New Project page into the mainBox
+		// Load the page into the mainBox
 		try {
 			AnchorPane pane2 = (AnchorPane)FXMLLoader.load(url);
 			
-			// remove child 1 if exists
-			if (mainBox.getChildren().size() > 1) { // both child 0 and 1 exist
+			if (mainBox.getChildren().size() > 1) {
 				mainBox.getChildren().remove(1);
 			}
 			
-			// add new project pane to the mainBox as child 1
 			mainBox.getChildren().add(pane2);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	} 
+	
+	
+	/**
+	 * When the 'View Data' button is clicked, application navigates to the View Data page.
+	 */
+	@FXML public void showViewData() {
+
+		// View Data page fxml file
+		URL url = getClass().getClassLoader().getResource("view/ViewData.fxml");
 		
+		// Load the page into the mainBox
+		try {
+			AnchorPane pane2 = (AnchorPane)FXMLLoader.load(url);
+			
+			if (mainBox.getChildren().size() > 1) {
+				mainBox.getChildren().remove(1);
+			}
+			
+			mainBox.getChildren().add(pane2);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

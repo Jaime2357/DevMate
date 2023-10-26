@@ -1,9 +1,12 @@
-package application;
+package application.dataAccess;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * This class is for connecting to SQLite.
+ */
 public class sqliteConnection {
 	public static Connection connect() {
 		Connection con = null;

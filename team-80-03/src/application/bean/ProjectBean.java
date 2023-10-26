@@ -1,12 +1,14 @@
-package application;
+package application.bean;
 
-public class ProjectDAO {
+/**
+ * This class is for the information about a project.
+ */
+public class ProjectBean {
 	private String projectName;
 	private String projectDesc;
 	private String date;
 	
-	public ProjectDAO(String projectName, String projectDesc, String date) {
-		// TODO Auto-generated constructor stub
+	public ProjectBean(String projectName, String projectDesc, String date) {
 		this.projectName = projectName;
 		this.projectDesc = projectDesc;
 		this.date = date;
@@ -36,9 +38,5 @@ public class ProjectDAO {
 		a = "Name " + getProjectName() +  "; Date " + getDate() + "; Des " + getProjectDesc();
 		return a;
 	}
-	
-	
-	
-	
 
 }
