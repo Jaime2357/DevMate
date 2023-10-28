@@ -65,5 +65,28 @@ public class ProjectDAO {
 //        System.out.println(projects.toString());
         return projects;
 	}
+	
+	public static int getProjectId(String projName) {
+	    int projectId = 0;
+	    try {
+	        Connection con = sqliteConnection.connect();
+	        String query = "SELECT id FROM Projects WHERE Name = ?";
+	        PreparedStatement preparedStatement = con.prepareStatement(query);
+	        preparedStatement.setString(1, projName);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+
+	        if (resultSet.next()) {
+	            projectId = resultSet.getInt("id");
+	        }
+
+	        resultSet.close();
+	        preparedStatement.close();
+	        con.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return projectId;
+	}
 
 }
