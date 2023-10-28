@@ -14,8 +14,8 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
-		
 		sqliteConnection.connect();
+		
 		
 		try {
 			HBox mainBox = (HBox)FXMLLoader.load(getClass().getClassLoader().getResource("view/Main.fxml"));
@@ -35,6 +35,7 @@ public class Main extends Application {
 	
 	// Launch DevMate application
 	public static void main(String[] args) {
+	
 		launch(args);
 	}
 }

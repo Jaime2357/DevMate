@@ -138,6 +138,30 @@ public class MainController {
 	}
 	
 	
+	/**
+	 * When the 'View Data' button is clicked, application navigates to the View Data page.
+	 */
+	@FXML public void showViewTickets() {
+
+		// View Data page fxml file
+		URL url = getClass().getClassLoader().getResource("view/ViewTickets.fxml");
+		
+		// Load the page into the mainBox
+		try {
+			AnchorPane pane2 = (AnchorPane)FXMLLoader.load(url);
+			
+			if (mainBox.getChildren().size() > 1) {
+				mainBox.getChildren().remove(1);
+			}
+			
+			mainBox.getChildren().add(pane2);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	private CommonObjs commonObjs = CommonObjs.getInstance();
 
 	/**

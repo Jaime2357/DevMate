@@ -1,12 +1,17 @@
 package application.controller;
 
 import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collections;
 
+import application.CommonObjs;
+import application.bean.CommentBean;
 import application.bean.ProjectBean;
 import application.bean.TicketBean;
+import application.dataAccess.CommentDAO;
+
 import application.dataAccess.ProjectDAO;
 import application.dataAccess.TicketDAO;
 import javafx.collections.FXCollections;
@@ -14,10 +19,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
-
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 public class NewCommentController {
 
 	@FXML TextField timestamp;
@@ -34,17 +43,70 @@ public class NewCommentController {
 		// populate ticket drop down list based on the project selected
 		projSelection.setOnAction(this::createTicketSelection);
 		currentDateTime();
+		 // Add a ChangeListener to the ticketSelection
+	    ticketSelection.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+	        @Override
+	        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+	            showData();
+	        }
+	    });
+
+	    currentDateTime();
+	    showData();
 	}
 	
+
+	private CommonObjs commonObjs = CommonObjs.getInstance();
+	
+    @FXML
+    private TableView<CommentBean> commentsTable;
+    @FXML
+    private TableColumn<CommentBean, String> dateColumn;
+    @FXML
+    private TableColumn<CommentBean, String> descriptionColumn;
+
+    /**
+     * To display the comments in the table.
+     */
+    public void showData(){    
+        ObservableList<CommentBean> allComments = CommentDAO.getCommentsFromDB();
+
+        // Get the selected ticket name
+        String selectedTicket = ticketSelection.getValue();
+
+        if (selectedTicket != null) {
+            ObservableList<CommentBean> filteredComments = FXCollections.observableArrayList();
+
+            for (CommentBean comment : allComments) {
+                if (comment.getTicketId() == CommentDAO.getTicketId(selectedTicket)) {
+                    filteredComments.add(comment);
+                }
+            }
+            dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+            descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
+
+            commentsTable.setItems(filteredComments);
+            
+        } else {
+            // If no ticket is selected, clear the table
+            commentsTable.getItems().clear();
+        }
+    }
+    
 
 	@FXML public void saveNewComment() {
 		// get input
 		String projName = projSelection.getValue();
 		int projId = ProjectDAO.getProjectId(projName);
 		String ticketName = ticketSelection.getValue();
-		// int ticketID = TicketDAO.getTicketID(ticketName)
+		
+		int ticketId = TicketDAO.getTicketId(ticketName);
+		
 		String description = commentDescr.getText().trim();
 		String datetime = timestamp.getText();
+		
+		
+		
 		
 		if (projName == null || ticketName == null || description.isEmpty()) {
 			// Throw an exception or handle the error as needed
@@ -55,7 +117,11 @@ public class NewCommentController {
 			formError.showAndWait();
 		} else {
 			
+			CommentBean comment = new CommentBean(projId, ticketId, description, datetime);			
+			CommentDAO.addCommentToDB(comment);
+			
 		}
+		showData();
 		
 	}
 
@@ -92,6 +158,8 @@ public class NewCommentController {
 		Collections.sort(ticketNames, String.CASE_INSENSITIVE_ORDER);
 		ticketSelection.setItems(ticketNames);
 		
+	    showData();
+
 	}
 	
 	

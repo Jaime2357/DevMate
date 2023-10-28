@@ -18,7 +18,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class ViewDataController implements Initializable {
 	private CommonObjs commonObjs = CommonObjs.getInstance();
-	ObservableList<ProjectBean> projects = FXCollections.observableArrayList();
     
     @FXML
     private TableView<ProjectBean> projectTable;

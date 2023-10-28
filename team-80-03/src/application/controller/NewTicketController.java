@@ -3,6 +3,7 @@ package application.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collections;
 
 import application.CommonObjs;
@@ -28,7 +29,7 @@ public class NewTicketController {
 	// instance of the CommonObjs, use when navigating to another page
 	private CommonObjs commonObjs = CommonObjs.getInstance();
 	private ProjectBean currentProj;
-	
+	@FXML TextField timestamp;
 	@FXML TextField ticketName;
 	@FXML TextArea ticketDescr;
 	@FXML ChoiceBox<String> projSelection;
@@ -39,6 +40,8 @@ public class NewTicketController {
 	@FXML
 	public void initialize() {
 		createSelection();
+		currentDateTime();
+
 	}
 	
 	@FXML public void saveNewTicket() {
@@ -62,7 +65,7 @@ public class NewTicketController {
 			TicketDAO.addTicketToDB(ticket);
 
 			// go to View Data page
-			URL url = getClass().getClassLoader().getResource("view/ViewData.fxml");
+			URL url = getClass().getClassLoader().getResource("view/ViewTickets.fxml");
 
 			try { // load page into mainBox
 				AnchorPane thepane = (AnchorPane) FXMLLoader.load(url); // convert to anchor pane
@@ -81,6 +84,16 @@ public class NewTicketController {
 		}
 		
 		
+	}
+	/**
+	 * Displays the current date-time in the non-editable text field.
+	 */
+	@FXML
+	public void currentDateTime() {
+		String date = LocalDate.now().toString();
+		String time = LocalTime.now().toString();
+		timestamp.setText(date + " " + time);
+		//timestamp.setText(LocalDateTime.now().toString());
 	}
 	
 	/**
@@ -109,5 +122,6 @@ public class NewTicketController {
 		ticketDescr.clear();
 		projSelection.setValue(null);
 	}
+
 
 }

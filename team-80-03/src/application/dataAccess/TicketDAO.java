@@ -107,5 +107,31 @@ public class TicketDAO {
         
         return tickets;
 	}
+	/**
+	 * To get ticket id from the DB via ticket name.
+	 * @return ticketID
+	 */
+	public static int getTicketId(String tickName) {
+	    int ticketId = -1;
+	    System.out.println(tickName + " getting name ... ");
+	    try {
+	        Connection con = sqliteConnection.connect();
+	        String query = "SELECT ticketID FROM Tickets WHERE ticketName = ?";
+	        PreparedStatement preparedStatement = con.prepareStatement(query);
+	        preparedStatement.setString(1, tickName);
+	        ResultSet resultSet = preparedStatement.executeQuery();
 
+	        if (resultSet.next()) {
+	        	ticketId = resultSet.getInt("ticketID");
+	        }
+
+	        resultSet.close();
+	        preparedStatement.close();
+	        con.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return ticketId;
+	}
 }
