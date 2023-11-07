@@ -59,7 +59,6 @@ public class ViewTicketsController implements Initializable{
 	 * with tickets that have the substring in ticket name or project name.
 	 */
 	@FXML public void search() {
-		System.out.println("key typed");
 		String searchStr = searchBar.getText().trim();
 		showData(searchStr);
 	}

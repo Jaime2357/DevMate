@@ -54,7 +54,6 @@ public class ViewDataController implements Initializable {
 	 * with projects that match the substring.
 	 */
 	@FXML public void search() {
-		System.out.println("key typed");
 		String searchStr = searchBar.getText().trim();
 		showData(searchStr);
 	}
