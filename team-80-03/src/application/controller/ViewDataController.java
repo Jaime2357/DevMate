@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.TextField;
 
 /**
  * This class is for controlling the View Data page of the application.
@@ -27,6 +28,8 @@ public class ViewDataController implements Initializable {
     private TableColumn<ProjectBean, String> dateColumn;
     @FXML
     private TableColumn<ProjectBean, String> descriptionColumn;
+
+	@FXML TextField searchBar;
 
     /**
      * To display the project data in the table.
@@ -44,7 +47,30 @@ public class ViewDataController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		showData();
-		
+	}
+
+	/**
+	 * When user types into the search bar, the table is automatically re-populated
+	 * with projects that match the substring.
+	 */
+	@FXML public void search() {
+		System.out.println("key typed");
+		String searchStr = searchBar.getText().trim();
+		showData(searchStr);
+	}
+	
+	/**
+	 * To show projects in the table whose name matches the search string.
+	 * @param searchStr The substring to search for in the project's name
+	 */
+	private void showData(String searchStr) {
+		ObservableList<ProjectBean> allProjects = ProjectDAO.getProjectsFromDB();
+		ObservableList<ProjectBean> results = FXCollections.observableArrayList();;
+		for (ProjectBean p : allProjects) {
+			if (p.getProjectName().contains(searchStr))
+			results.add(p);
+		}
+		projectTable.setItems(results);
 	}
 
 }
