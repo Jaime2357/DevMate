@@ -29,7 +29,6 @@ public class NewTicketController {
 	// instance of the CommonObjs, use when navigating to another page
 	private CommonObjs commonObjs = CommonObjs.getInstance();
 	private ProjectBean currentProj;
-	@FXML TextField timestamp;
 	@FXML TextField ticketName;
 	@FXML TextArea ticketDescr;
 	@FXML ChoiceBox<String> projSelection;
@@ -40,8 +39,6 @@ public class NewTicketController {
 	@FXML
 	public void initialize() {
 		createSelection();
-		currentDateTime();
-
 	}
 	
 	@FXML public void saveNewTicket() {
@@ -50,7 +47,6 @@ public class NewTicketController {
 		int projId = ProjectDAO.getProjectId(projName);
 		String name = ticketName.getText().trim();
 		String description = ticketDescr.getText();
-		//String project = projSelection.getValue();
 		LocalDate date = LocalDate.now();
 		
 		if (name.isEmpty() || projName == null) {
@@ -82,18 +78,6 @@ public class NewTicketController {
 				e.printStackTrace();
 			}
 		}
-		
-		
-	}
-	/**
-	 * Displays the current date-time in the non-editable text field.
-	 */
-	@FXML
-	public void currentDateTime() {
-		String date = LocalDate.now().toString();
-		String time = LocalTime.now().toString();
-		timestamp.setText(date + " " + time);
-		//timestamp.setText(LocalDateTime.now().toString());
 	}
 	
 	/**
