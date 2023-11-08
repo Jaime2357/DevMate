@@ -122,7 +122,7 @@ public class NewCommentController {
 			
 		}
 		showData();
-		
+		commentDescr.clear();
 	}
 
 	
