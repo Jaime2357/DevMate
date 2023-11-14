@@ -35,6 +35,21 @@ public class ProjectDAO {
 		
 	}
 	
+	public static void removeProjectFromDB(ProjectBean project) {
+		Connection con = sqliteConnection.connect();
+        PreparedStatement ps = null;
+        try {
+            String sql = "DELETE FROM Projects WHERE Name = ?";
+            ps = con.prepareStatement(sql);
+            ps.setString(1, project.getProjectName());
+            ps.execute();
+            System.out.println("Data Removed");
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+		
+	}
+	
 	/**
 	 * To get a projects from the DB, used for displaying the information about the project.
 	 * @return An ObservableList of ProjectBean objects
