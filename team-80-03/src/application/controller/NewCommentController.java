@@ -10,6 +10,7 @@ import application.CommonObjs;
 import application.bean.CommentBean;
 import application.bean.ProjectBean;
 import application.bean.TicketBean;
+//import application.controller.ViewTicketsController.ButtonCell;
 import application.dataAccess.CommentDAO;
 
 import application.dataAccess.ProjectDAO;
@@ -27,12 +28,17 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
+import javafx.util.Callback;
+
 public class NewCommentController {
 
 	@FXML TextField timestamp;
 	@FXML TextArea commentDescr;
 	@FXML ChoiceBox<String> projSelection;
 	@FXML ChoiceBox<String> ticketSelection;
+	
 
 	/**
 	 * Automatically populate the drop down menus with existing projects and tickets.
@@ -53,7 +59,39 @@ public class NewCommentController {
 
 	    currentDateTime();
 	    showData();
+	    initializeButtonColumn();
 	}
+	
+	private void initializeButtonColumn() {
+        // Create a cell factory for the button column
+        Callback<TableColumn<CommentBean, String>, TableCell<CommentBean, String>> cellFactory =
+                (TableColumn<CommentBean, String> param) -> new ButtonCell();
+
+        // Set the cell factory for the actionColumn
+        actionColumn.setCellFactory(cellFactory);
+    }
+	
+	private class ButtonCell extends TableCell<CommentBean, String> {
+        final Button cellButton = new Button("Delete");
+
+        ButtonCell() {
+            cellButton.setOnAction(event -> {
+            	CommentBean comment = getTableView().getItems().get(getIndex());
+                // Add logic for handling the button click (e.g., opening a new window)
+                CommentDAO.removeCommentFromDB(comment);
+            });
+        }
+
+        @Override
+        protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+            } else {
+                setGraphic(cellButton);
+            }
+        }
+    }
 	
 
 	private CommonObjs commonObjs = CommonObjs.getInstance();
@@ -64,6 +102,8 @@ public class NewCommentController {
     private TableColumn<CommentBean, String> dateColumn;
     @FXML
     private TableColumn<CommentBean, String> descriptionColumn;
+    @FXML
+    private TableColumn<CommentBean, String> actionColumn;
 
     /**
      * To display the comments in the table.

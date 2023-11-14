@@ -53,6 +53,15 @@ public class ProjectDAO {
                 ps.setString(1, String.valueOf(projectId));
                 ps.execute();
                 System.out.println("Project Removed");
+                try {
+                    sql = "DELETE FROM Comments WHERE projId = ?";
+                    ps = con.prepareStatement(sql);
+                    ps.setString(1, String.valueOf(projectId));
+                    ps.execute();
+                    System.out.println("Project Removed");
+                } catch (SQLException e) {
+                    System.out.println(e.toString());
+                }
             } catch (SQLException e) {
                 System.out.println(e.toString());
             }

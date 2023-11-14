@@ -36,6 +36,7 @@
          <columns>
             <TableColumn fx:id="descriptionColumn" editable="false" prefWidth="231.0" text="Previous Comments" />
             <TableColumn fx:id="dateColumn" editable="false" prefWidth="165.0" text="Date-Time" />
+            <TableColumn fx:id="actionColumn" editable="false" prefWidth="182.0" text="Actions" />
          </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

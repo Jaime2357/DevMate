@@ -38,6 +38,21 @@ public class CommentDAO {
 		
 	}
 	
+	public static void removeCommentFromDB(CommentBean comment) {
+		Connection con = sqliteConnection.connect();
+        PreparedStatement ps = null;
+        int commentId = getCommentId(comment);
+        try {
+            String sql = "DELETE FROM Comments WHERE commentId = ?";
+            ps = con.prepareStatement(sql);
+            ps.setString(1, String.valueOf(commentId));
+            ps.execute();
+            System.out.println("Data Removed");
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+	}
+	
 	/**
 	 * To get tickets from the DB, used for displaying the information about the ticket.
 	 * @return An ObservableList of TicketBean objects
@@ -98,6 +113,34 @@ public class CommentDAO {
         }
         
         return ticketId;
+	}
+	
+	public static int getCommentId(CommentBean target) {
+		int commentId = 0;
+		try {
+            Connection con = sqliteConnection.connect();
+            
+            String query = "SELECT commentId FROM Comments WHERE projId = ? "
+            		+ "AND ticketId = ? AND commentDesc = ? AND commentDate = ?";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, String.valueOf(target.getProjId()) );
+            statement.setString(2, String.valueOf(target.getTicketId()));
+            statement.setString(3, target.getComment());
+            statement.setString(4, target.getDate());
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+            	commentId = resultSet.getInt("commentId");
+            }
+
+            resultSet.close();
+            statement.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return commentId;
 	}
 
 }

@@ -49,6 +49,16 @@ public class TicketDAO {
             ps.setString(1, String.valueOf(ticketId));
             ps.execute();
             System.out.println("Data Removed");
+            
+            try {
+                sql = "DELETE FROM Comments WHERE ticketId = ?";
+                ps = con.prepareStatement(sql);
+                ps.setString(1, String.valueOf(ticketId));
+                ps.execute();
+                System.out.println("Data Removed");
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
