@@ -39,6 +39,21 @@ public class TicketDAO {
 		
 	}
 	
+	public static void removeTicketFromDB(TicketBean ticket) {
+		Connection con = sqliteConnection.connect();
+        PreparedStatement ps = null;
+        int ticketId = getTicketId(ticket.getTicketName());
+        try {
+            String sql = "DELETE FROM Tickets WHERE ticketID = ?";
+            ps = con.prepareStatement(sql);
+            ps.setString(1, String.valueOf(ticketId));
+            ps.execute();
+            System.out.println("Data Removed");
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+	}
+	
 	/**
 	 * To get tickets from the DB, used for displaying the information about the ticket.
 	 * @return An ObservableList of TicketBean objects

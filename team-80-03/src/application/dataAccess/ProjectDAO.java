@@ -38,16 +38,27 @@ public class ProjectDAO {
 	public static void removeProjectFromDB(ProjectBean project) {
 		Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
+        int projectId = getProjectId(project.getProjectName());
+        
         try {
-            String sql = "DELETE FROM Projects WHERE Name = ?";
+            String sql = "DELETE FROM Projects WHERE id = ?";
             ps = con.prepareStatement(sql);
-            ps.setString(1, project.getProjectName());
+            ps.setString(1, String.valueOf(projectId));
             ps.execute();
-            System.out.println("Data Removed");
+            System.out.println("Project Removed");
+            
+            try {
+                sql = "DELETE FROM Tickets WHERE projId = ?";
+                ps = con.prepareStatement(sql);
+                ps.setString(1, String.valueOf(projectId));
+                ps.execute();
+                System.out.println("Project Removed");
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
-		
 	}
 	
 	/**

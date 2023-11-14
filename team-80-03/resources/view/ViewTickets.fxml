@@ -7,24 +7,40 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: beige;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ViewTicketsController">
-   <children>
-      <Label layoutX="31.0" layoutY="23.0" prefHeight="29.0" prefWidth="183.0" text="Tickets  |  Search:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-       <TableView fx:id="ticketsTable" layoutX="14.0" layoutY="84.0" prefHeight="293.0" prefWidth="420.0" style="-fx-background-color: beige; -fx-border-color: darkcyan; -fx-font-size: 12;">
-        <columns>
-            <TableColumn fx:id="projColumn" editable="false" prefWidth="182.0" text="Project" />
-            <TableColumn fx:id="nameColumn" editable="false" prefWidth="104.0" text="Ticket" />
-          <TableColumn fx:id="dateColumn" editable="false" prefWidth="95.0" text="Date" />
-            <TableColumn fx:id="descriptionColumn" editable="false" prefWidth="182.0" text="Description" />
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
-      <TextField fx:id="searchBar" layoutX="214.0" layoutY="25.0" onKeyReleased="#search" /> 
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
+	prefWidth="450.0" style="-fx-background-color: beige;"
+	xmlns="http://javafx.com/javafx/8.0.171"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="application.controller.ViewTicketsController">
+	<children>
+		<Label layoutX="31.0" layoutY="23.0" prefHeight="29.0"
+			prefWidth="183.0" text="Tickets  |  Search:">
+			<font>
+				<Font size="24.0" />
+			</font>
+		</Label>
+		<TableView fx:id="ticketsTable" layoutX="14.0"
+			layoutY="84.0" prefHeight="293.0" prefWidth="420.0"
+			style="-fx-background-color: beige; -fx-border-color: darkcyan; -fx-font-size: 12;">
+			<columns>
+				<TableColumn fx:id="projColumn" editable="false"
+					prefWidth="182.0" text="Project" />
+				<TableColumn fx:id="nameColumn" editable="false"
+					prefWidth="104.0" text="Ticket" />
+				<TableColumn fx:id="dateColumn" editable="false"
+					prefWidth="95.0" text="Date" />
+				<TableColumn fx:id="descriptionColumn" editable="false"
+					prefWidth="182.0" text="Description" />
+				<TableColumn fx:id="actionColumn" editable="false"
+					prefWidth="182.0" text="Actions" />
+
+			</columns>
+			<columnResizePolicy>
+				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			</columnResizePolicy>
+		</TableView>
+		<TextField fx:id="searchBar" layoutX="214.0" layoutY="25.0"
+			onKeyReleased="#search" />
+	</children>
 </AnchorPane>
