@@ -47,7 +47,7 @@ public class ViewTicketsController implements Initializable{
     public void showData(){    
     	ObservableList<TicketBean> tickets = TicketDAO.getTicketsFromDB();
     	//String param of PropertyValueFactory is private variable names of TicketBean
-    	projColumn.setCellValueFactory(new PropertyValueFactory<>("TicketName"));
+    	projColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
     	nameColumn.setCellValueFactory(new PropertyValueFactory<>("ticketName"));
     	dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
     	descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("ticketDesc"));

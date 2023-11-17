@@ -79,6 +79,8 @@ public class NewCommentController {
             	CommentBean comment = getTableView().getItems().get(getIndex());
                 // Add logic for handling the button click (e.g., opening a new window)
                 CommentDAO.removeCommentFromDB(comment);
+                //Reload data
+                showData();
             });
         }
 

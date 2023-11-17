@@ -73,6 +73,8 @@ public class ViewDataController implements Initializable {
                 ProjectBean project = getTableView().getItems().get(getIndex());
                 // Add logic for handling the button click (e.g., opening a new window)
                 ProjectDAO.removeProjectFromDB(project);
+                // Show data
+                showData();
             });
         }
 
