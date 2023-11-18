@@ -176,10 +176,13 @@ public class ViewTicketsController implements Initializable{
 	 */
 	private void showData(String searchStr) {
 		ObservableList<TicketBean> allTickets = TicketDAO.getTicketsFromDB();
-		ObservableList<TicketBean> results = FXCollections.observableArrayList();;
+		ObservableList<TicketBean> results = FXCollections.observableArrayList();
+		searchStr = searchStr.toLowerCase();
 		for (TicketBean t : allTickets) {
-			if (t.getTicketName().contains(searchStr) || t.getTicketName().contains(searchStr))
-			results.add(t);
+			String ticketName = t.getTicketName().toLowerCase();
+			String projName = t.getProjectName().toLowerCase();
+			if (ticketName.contains(searchStr) || projName.contains(searchStr))
+				results.add(t);
 		}
 		ticketsTable.setItems(results);
 	}

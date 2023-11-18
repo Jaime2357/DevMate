@@ -180,10 +180,12 @@ public class ViewDataController implements Initializable {
 	 */
 	private void showData(String searchStr) {
 		ObservableList<ProjectBean> allProjects = ProjectDAO.getProjectsFromDB();
-		ObservableList<ProjectBean> results = FXCollections.observableArrayList();;
+		ObservableList<ProjectBean> results = FXCollections.observableArrayList();
+		searchStr = searchStr.toLowerCase();
 		for (ProjectBean p : allProjects) {
-			if (p.getProjectName().contains(searchStr))
-			results.add(p);
+			String projName = p.getProjectName().toLowerCase();
+			if (projName.contains(searchStr))
+				results.add(p);
 		}
 		projectTable.setItems(results);
 	}
