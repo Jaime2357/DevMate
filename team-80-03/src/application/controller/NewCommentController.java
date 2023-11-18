@@ -148,8 +148,6 @@ public class NewCommentController {
 		String datetime = timestamp.getText();
 		
 		
-		
-		
 		if (projName == null || ticketName == null || description.isEmpty()) {
 			// Throw an exception or handle the error as needed
 			// Display an error message to the user

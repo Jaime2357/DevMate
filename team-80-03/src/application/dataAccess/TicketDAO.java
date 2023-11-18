@@ -159,4 +159,35 @@ public class TicketDAO {
 
 	    return ticketId;
 	}
+	/**
+	 * Edit Ticket by ID
+	 * @return
+	 */
+	public static int editTicket(int ticketId, String editName, String editDate, String editDesc) {
+	    int rowsAffected = 0;
+
+	    try {
+	        Connection con = sqliteConnection.connect();
+	        String updateQuery = "UPDATE Tickets SET ticketName = ?, ticketDate = ?, ticketDesc = ? WHERE ticketID = ?";
+	        PreparedStatement ps = con.prepareStatement(updateQuery);
+	        ps.setString(1, editName);
+	        ps.setString(2, editDate);
+	        ps.setString(3, editDesc);
+	        ps.setInt(4, ticketId);
+
+	        rowsAffected = ps.executeUpdate();
+	        ps.close();
+	        con.close();
+
+	        if (rowsAffected > 0) {
+	            System.out.println("Ticket Updated Successfully");
+	        } else {
+	            System.out.println("Ticket Not Found or No Changes Made");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return rowsAffected;
+	}
 }

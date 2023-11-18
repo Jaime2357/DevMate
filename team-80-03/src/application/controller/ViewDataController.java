@@ -1,6 +1,10 @@
 package application.controller;
 
+import java.awt.event.MouseEvent;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 import application.CommonObjs;
 import application.bean.ProjectBean;
@@ -13,6 +17,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.util.Callback;
@@ -36,6 +41,11 @@ public class ViewDataController implements Initializable {
 
 	@FXML TextField searchBar;
 	
+	@FXML TextField nameEdit;
+	@FXML TextField dateEdit;
+	@FXML TextField desEdit;
+	@FXML TextField actEdit;
+	private String preEditName = "";
     /**
      * To display the project data in the table.
      */
@@ -56,6 +66,71 @@ public class ViewDataController implements Initializable {
 		initializeButtonColumn();
 	}
 	
+	@FXML 
+	public void rowClick() {
+		ProjectBean clickedProj = projectTable.getSelectionModel().getSelectedItem();
+
+		if (clickedProj != null) {
+			nameEdit.setText(String.valueOf(clickedProj.getProjectName()));
+			dateEdit.setText(String.valueOf(clickedProj.getDate()));
+			desEdit.setText(String.valueOf(clickedProj.getProjectDesc()));
+			preEditName = String.valueOf(clickedProj.getProjectName());
+		}
+	
+	}
+	public static boolean isValidDate(String dateString) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        try {
+            // Try to parse the string into a LocalDate
+            LocalDate.parse(dateString, dateFormatter);
+            return true; // Parsing successful, date is valid
+        } catch (DateTimeParseException e) {
+            return false; // Parsing failed, date is invalid
+        }
+    }
+	@FXML 
+	public void submitEdit() {
+		String editName = nameEdit.getText();
+		String editDes = desEdit.getText();
+		String editDate = dateEdit.getText();
+		int editedID = ProjectDAO.getProjectId(preEditName);
+
+		if (isValidDate(editDate) != true) {
+			
+			Alert formError = new Alert(Alert.AlertType.ERROR);
+			formError.setTitle("Submit Error");
+			formError.setContentText("Invalid Date Form!");
+			formError.showAndWait();
+
+			nameEdit.clear();
+			dateEdit.clear();
+			desEdit.clear();
+			return;
+		}
+	      
+		if (editName.isEmpty() || editDate.isEmpty() ) {
+			// Throw an exception or handle the error as needed
+			// Display an error message to the user
+			Alert formError = new Alert(Alert.AlertType.ERROR);
+			formError.setTitle("Submit Error");
+			formError.setContentText("Project name or starting date cannot be empty");
+			formError.showAndWait();
+			nameEdit.clear();
+			dateEdit.clear();
+			desEdit.clear();
+			return;
+		}	
+		
+		ProjectDAO.editProject(editedID, editName, editDate, editDes);
+		nameEdit.clear();
+		dateEdit.clear();
+		desEdit.clear();
+		showData();
+		
+	
+	}
+	
 	private void initializeButtonColumn() {
         // Create a cell factory for the button column
         Callback<TableColumn<ProjectBean, String>, TableCell<ProjectBean, String>> cellFactory =
@@ -66,10 +141,11 @@ public class ViewDataController implements Initializable {
     }
 	
 	private class ButtonCell extends TableCell<ProjectBean, String> {
-        final Button cellButton = new Button("Delete");
+        final Button delButton = new Button("Delete");
+        final Button editButton = new Button("Edit");
 
         ButtonCell() {
-            cellButton.setOnAction(event -> {
+            delButton.setOnAction(event -> {
                 ProjectBean project = getTableView().getItems().get(getIndex());
                 // Add logic for handling the button click (e.g., opening a new window)
                 ProjectDAO.removeProjectFromDB(project);
@@ -84,7 +160,7 @@ public class ViewDataController implements Initializable {
             if (empty) {
                 setGraphic(null);
             } else {
-                setGraphic(cellButton);
+                setGraphic(delButton);
             }
         }
     }

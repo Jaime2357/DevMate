@@ -20,7 +20,7 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: darkcyan;">
          <children>
-            <Button layoutX="40.0" layoutY="110.0" mnemonicParsing="false" onAction="#showNewProjectPage" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: beige;" text="New Project" textAlignment="CENTER" textFill="DARKCYAN">
+            <Button layoutX="26.0" layoutY="110.0" mnemonicParsing="false" onAction="#showNewProjectPage" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: beige;" text="New Project" textAlignment="CENTER" textFill="DARKCYAN">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>
@@ -36,7 +36,7 @@
                      </stops>
                   </LinearGradient>
                </textFill></Label>
-            <Button layoutX="40.0" layoutY="290.0" mnemonicParsing="false" onAction="#showViewData" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: beige;" text="View Projects" textAlignment="CENTER" textFill="DARKCYAN">
+            <Button layoutX="26.0" layoutY="290.0" mnemonicParsing="false" onAction="#showViewData" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: beige;" text="View/Edit Projects" textAlignment="CENTER" textFill="DARKCYAN">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -59,17 +59,17 @@
                   <FontAwesomeIcon fill="BEIGE" glyphName="HOME" size="1.5em" />
                </graphic>
             </Hyperlink>
-            <Button layoutX="40.0" layoutY="170.0" mnemonicParsing="false" onAction="#showNewTicketPage" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: beige;" text="New Ticket" textAlignment="CENTER" textFill="DARKCYAN">
+            <Button layoutX="26.0" layoutY="170.0" mnemonicParsing="false" onAction="#showNewTicketPage" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: beige;" text="New Ticket" textAlignment="CENTER" textFill="DARKCYAN">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <Button layoutX="40.0" layoutY="230.0" mnemonicParsing="false" onAction="#showNewCommentPage" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: beige;" text="Comments" textAlignment="CENTER" textFill="DARKCYAN">
+            <Button layoutX="26.0" layoutY="235.0" mnemonicParsing="false" onAction="#showNewCommentPage" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: beige;" text="Comments" textAlignment="CENTER" textFill="DARKCYAN">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <Button layoutX="40.0" layoutY="350.0" mnemonicParsing="false" onAction="#showViewTickets" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: beige;" text="View Tickets" textAlignment="CENTER" textFill="DARKCYAN">
+            <Button layoutX="26.0" layoutY="349.0" mnemonicParsing="false" onAction="#showViewTickets" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: beige;" text="View/Edit Tickets" textAlignment="CENTER" textFill="DARKCYAN">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

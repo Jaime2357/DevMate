@@ -1,6 +1,12 @@
 package application.controller;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
 import application.CommonObjs;
@@ -8,6 +14,7 @@ import application.bean.TicketBean;
 import application.bean.ProjectBean;
 //import application.controller.ViewDataController.ButtonCell;
 import application.dataAccess.TicketDAO;
+import application.dataAccess.sqliteConnection;
 import application.dataAccess.ProjectDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.util.Callback;
@@ -41,6 +49,10 @@ public class ViewTicketsController implements Initializable{
 
 	@FXML TextField searchBar;
 
+	@FXML TextField nameEdit;
+	@FXML TextField dateEdit;
+	@FXML TextField desEdit;
+	private String preEditName = "";
     /**
      * To display the Ticket data in the table.
      */
@@ -60,7 +72,62 @@ public class ViewTicketsController implements Initializable{
 		showData();
 		initializeButtonColumn();
 	}
+	@FXML 
+	public void rowClick() {
+		
+		TicketBean clickedTicket = ticketsTable.getSelectionModel().getSelectedItem();
+		
+		if (clickedTicket != null) {
+			nameEdit.setText(String.valueOf(clickedTicket.getTicketName()));
+			dateEdit.setText(String.valueOf(clickedTicket.getDate()));
+			desEdit.setText(String.valueOf(clickedTicket.getTicketDesc()));
+			preEditName = String.valueOf(clickedTicket.getTicketName());
+		}
+		
+
+	}
+
+	@FXML 
+	public void submitEdit() {
+		String editName = nameEdit.getText();
+		String editDes = desEdit.getText();
+		String editDate = dateEdit.getText();
+		int editedID = TicketDAO.getTicketId(preEditName);
+
+		if (ViewDataController.isValidDate(editDate) != true) {
+			
+			Alert formError = new Alert(Alert.AlertType.ERROR);
+			formError.setTitle("Submit Error");
+			formError.setContentText("Invalid Date Form!");
+			formError.showAndWait();
+
+			nameEdit.clear();
+			dateEdit.clear();
+			desEdit.clear();
+			return;
+		}
+	      
+		if (editName.isEmpty() || editDate.isEmpty() ) {
+			// Throw an exception or handle the error as needed
+			// Display an error message to the user
+			Alert formError = new Alert(Alert.AlertType.ERROR);
+			formError.setTitle("Submit Error");
+			formError.setContentText("Ticket name or starting date cannot be empty");
+			formError.showAndWait();
+			nameEdit.clear();
+			dateEdit.clear();
+			desEdit.clear();
+			return;
+		}	
+		
+		TicketDAO.editTicket(editedID, editName, editDate, editDes);
+		nameEdit.clear();
+		dateEdit.clear();
+		desEdit.clear();
+		showData();
+		
 	
+	}
 	private void initializeButtonColumn() {
         // Create a cell factory for the button column
         Callback<TableColumn<TicketBean, String>, TableCell<TicketBean, String>> cellFactory =
@@ -78,6 +145,8 @@ public class ViewTicketsController implements Initializable{
                 TicketBean ticket = getTableView().getItems().get(getIndex());
                 // Add logic for handling the button click (e.g., opening a new window)
                 TicketDAO.removeTicketFromDB(ticket);
+                // Show data
+                showData();
             });
         }
 
@@ -115,6 +184,32 @@ public class ViewTicketsController implements Initializable{
 		ticketsTable.setItems(results);
 	}
 	
-	
+	public static int editTicket(int ticketID, String editProjName, String editDate, String editDesc) {
+	    int rowsAffected = 0;
+
+	    try {
+	        Connection con = sqliteConnection.connect();
+	        String updateQuery = "UPDATE Projects SET Name = ?, Date = ?, Description = ? WHERE id = ?";
+	        PreparedStatement ps = con.prepareStatement(updateQuery);
+	        ps.setString(1, editProjName);
+	        ps.setString(2, editDate);
+	        ps.setString(3, editDesc);
+	        ps.setInt(4, ticketID);
+
+	        rowsAffected = ps.executeUpdate();
+	        ps.close();
+	        con.close();
+
+	        if (rowsAffected > 0) {
+	            System.out.println("Ticket Updated Successfully");
+	        } else {
+	            System.out.println("Ticket Not Found or No Changes Made");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return rowsAffected;
+	}
     
 }

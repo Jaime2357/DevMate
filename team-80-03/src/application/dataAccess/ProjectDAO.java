@@ -123,5 +123,34 @@ public class ProjectDAO {
 
 	    return projectId;
 	}
+	
+	public static int editProject(int projectId, String editProjName, String editDate, String editDesc) {
+	    int rowsAffected = 0;
+
+	    try {
+	        Connection con = sqliteConnection.connect();
+	        String updateQuery = "UPDATE Projects SET Name = ?, Date = ?, Description = ? WHERE id = ?";
+	        PreparedStatement ps = con.prepareStatement(updateQuery);
+	        ps.setString(1, editProjName);
+	        ps.setString(2, editDate);
+	        ps.setString(3, editDesc);
+	        ps.setInt(4, projectId);
+
+	        rowsAffected = ps.executeUpdate();
+	        ps.close();
+	        con.close();
+
+	        if (rowsAffected > 0) {
+	            System.out.println("Project Updated Successfully");
+	        } else {
+	            System.out.println("Project Not Found or No Changes Made");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return rowsAffected;
+	}
+
 
 }
