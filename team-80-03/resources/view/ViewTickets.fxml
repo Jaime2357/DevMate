@@ -24,7 +24,7 @@
 				<TableColumn fx:id="nameColumn" editable="false" prefWidth="104.0" text="Ticket" />
 				<TableColumn fx:id="dateColumn" editable="false" prefWidth="95.0" text="Date" />
 				<TableColumn fx:id="descriptionColumn" editable="false" prefWidth="182.0" text="Description" />
-				<TableColumn fx:id="actionColumn" editable="false" prefWidth="182.0" text="Actions" />
+				<TableColumn fx:id="actionColumn" editable="false" prefWidth="182.0" text="Actions" visible="false" />
 
 			</columns>
 			<columnResizePolicy>
@@ -32,13 +32,13 @@
 			</columnResizePolicy>
 		</TableView>
 		<TextField fx:id="searchBar" layoutX="214.0" layoutY="25.0" onKeyReleased="#search" />
-      <Button fx:id="submitEdit" layoutX="164.0" layoutY="459.0" mnemonicParsing="false" onAction="#submitEdit" prefHeight="27.0" prefWidth="111.0" text="Submit" />
-      <Label layoutX="32.0" layoutY="377.0" prefHeight="29.0" prefWidth="190.0" text="Editing box" textFill="DARKCYAN" underline="true">
+      <Button fx:id="submitEdit" disable="true" layoutX="164.0" layoutY="459.0" mnemonicParsing="false" onAction="#submitEdit" prefHeight="27.0" prefWidth="111.0" text="Submit" visible="false" />
+      <Label disable="true" layoutX="32.0" layoutY="377.0" prefHeight="29.0" prefWidth="190.0" text="Editing box" textFill="DARKCYAN" underline="true" visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <VBox layoutX="18.0" layoutY="406.0" prefHeight="49.0" prefWidth="414.0">
+      <VBox disable="true" layoutX="18.0" layoutY="406.0" prefHeight="49.0" prefWidth="414.0" visible="false">
          <children>
             <HBox prefHeight="44.0" prefWidth="420.0">
                <children>
@@ -58,6 +58,6 @@
             </HBox>
          </children>
       </VBox>
-      <Label alignment="CENTER" layoutX="32.0" layoutY="60.0" prefHeight="17.0" prefWidth="161.0" text="Note: Click each row to edit." textFill="DARKCYAN" />
+      <Label alignment="CENTER" disable="true" layoutX="32.0" layoutY="60.0" prefHeight="17.0" prefWidth="161.0" text="Note: Click each row to edit." textFill="DARKCYAN" visible="false" />
 	</children>
 </AnchorPane>
