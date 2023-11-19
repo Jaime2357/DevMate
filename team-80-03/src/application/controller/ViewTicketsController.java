@@ -187,6 +187,7 @@ public class ViewTicketsController implements Initializable{
 		ticketsTable.setItems(results);
 	}
 	
+	/*
 	public static int editTicket(int ticketID, String editProjName, String editDate, String editDesc) {
 	    int rowsAffected = 0;
 
@@ -213,6 +214,6 @@ public class ViewTicketsController implements Initializable{
 	    }
 
 	    return rowsAffected;
-	}
+	} */
     
 }

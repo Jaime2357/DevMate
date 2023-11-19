@@ -16,12 +16,15 @@ import javafx.collections.ObservableList;
  */
 public class CommentDAO {
 	
+	private static sqliteConnection conSingleton = sqliteConnection.getInstance();
+	private static Connection con = conSingleton.getConnection();
+	
 	/**
 	 * To add a ticket to the DB.
 	 * @param ticket A TicketBean object which contains information about the ticket.
 	 */
 	public static void addCommentToDB(CommentBean comment) {
-		Connection con = sqliteConnection.connect();
+		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
         try {
             String sql = "INSERT INTO Comments(projId, ticketId, commentDesc, commentDate) VALUES(?, ?, ?, ?)";
@@ -39,7 +42,7 @@ public class CommentDAO {
 	}
 	
 	public static void removeCommentFromDB(CommentBean comment) {
-		Connection con = sqliteConnection.connect();
+		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
         int commentId = getCommentId(comment);
         try {
@@ -60,7 +63,7 @@ public class CommentDAO {
 	public static ObservableList<CommentBean> getCommentsFromDB() {
 		ObservableList<CommentBean> comments = FXCollections.observableArrayList();
 		try {
-            Connection con = sqliteConnection.connect();
+            //Connection con = sqliteConnection.connect();
             Statement statement = con.createStatement();
             String query = "SELECT projId, ticketId, commentDesc, commentDate FROM Comments";
             ResultSet resultSet = statement.executeQuery(query);
@@ -77,7 +80,7 @@ public class CommentDAO {
 
             resultSet.close();
             statement.close();
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -94,7 +97,7 @@ public class CommentDAO {
 	public static int getTicketId(String target) {
 		int ticketId = 0;
 		try {
-            Connection con = sqliteConnection.connect();
+            //Connection con = sqliteConnection.connect();
             
             String query = "SELECT ticketId FROM Tickets WHERE ticketName = ?";
             PreparedStatement statement = con.prepareStatement(query);
@@ -107,7 +110,7 @@ public class CommentDAO {
 
             resultSet.close();
             statement.close();
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -118,7 +121,7 @@ public class CommentDAO {
 	public static int getCommentId(CommentBean target) {
 		int commentId = 0;
 		try {
-            Connection con = sqliteConnection.connect();
+            //Connection con = sqliteConnection.connect();
             
             String query = "SELECT commentId FROM Comments WHERE projId = ? "
             		+ "AND ticketId = ? AND commentDesc = ? AND commentDate = ?";
@@ -135,7 +138,7 @@ public class CommentDAO {
 
             resultSet.close();
             statement.close();
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

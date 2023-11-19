@@ -16,12 +16,15 @@ import javafx.collections.ObservableList;
  */
 public class TicketDAO {
 	
+	private static sqliteConnection conSingleton = sqliteConnection.getInstance();
+	private static Connection con = conSingleton.getConnection();
+	
 	/**
 	 * To add a ticket to the DB.
 	 * @param ticket A TicketBean object which contains information about the ticket.
 	 */
 	public static void addTicketToDB(TicketBean ticket) {
-		Connection con = sqliteConnection.connect();
+		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
         try {
             String sql = "INSERT INTO Tickets(projId, projName, ticketName, ticketDesc, ticketDate) VALUES(?, ?, ?, ?, ?)";
@@ -40,7 +43,7 @@ public class TicketDAO {
 	}
 	
 	public static void removeTicketFromDB(TicketBean ticket) {
-		Connection con = sqliteConnection.connect();
+		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
         int ticketId = getTicketId(ticket.getTicketName());
         try {
@@ -71,7 +74,7 @@ public class TicketDAO {
 	public static ObservableList<TicketBean> getTicketsFromDB() {
 		ObservableList<TicketBean> tickets = FXCollections.observableArrayList();
 		try {
-            Connection con = sqliteConnection.connect();
+            //Connection con = sqliteConnection.connect();
             Statement statement = con.createStatement();
             String query = "SELECT projId, projName, ticketName, ticketDate, ticketDesc FROM Tickets";
             ResultSet resultSet = statement.executeQuery(query);
@@ -88,7 +91,7 @@ public class TicketDAO {
 
             resultSet.close();
             statement.close();
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -106,7 +109,7 @@ public class TicketDAO {
 		ObservableList<TicketBean> tickets = FXCollections.observableArrayList();
 		int targetProjId = ProjectDAO.getProjectId(targetProjectName);
 		try {
-            Connection con = sqliteConnection.connect();
+            //Connection con = sqliteConnection.connect();
             
             String query = "SELECT projId, projName, ticketName, ticketDate, ticketDesc FROM Tickets WHERE projId = ?";
             PreparedStatement statement = con.prepareStatement(query);
@@ -125,7 +128,7 @@ public class TicketDAO {
 
             resultSet.close();
             statement.close();
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -140,7 +143,7 @@ public class TicketDAO {
 	    int ticketId = -1;
 	    System.out.println(tickName + " getting name ... ");
 	    try {
-	        Connection con = sqliteConnection.connect();
+	        //Connection con = sqliteConnection.connect();
 	        String query = "SELECT ticketID FROM Tickets WHERE ticketName = ?";
 	        PreparedStatement preparedStatement = con.prepareStatement(query);
 	        preparedStatement.setString(1, tickName);
@@ -152,7 +155,7 @@ public class TicketDAO {
 
 	        resultSet.close();
 	        preparedStatement.close();
-	        con.close();
+	        //con.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
@@ -167,7 +170,7 @@ public class TicketDAO {
 	    int rowsAffected = 0;
 
 	    try {
-	        Connection con = sqliteConnection.connect();
+	        //Connection con = sqliteConnection.connect();
 	        String updateQuery = "UPDATE Tickets SET ticketName = ?, ticketDate = ?, ticketDesc = ? WHERE ticketID = ?";
 	        PreparedStatement ps = con.prepareStatement(updateQuery);
 	        ps.setString(1, editName);
@@ -177,7 +180,7 @@ public class TicketDAO {
 
 	        rowsAffected = ps.executeUpdate();
 	        ps.close();
-	        con.close();
+	        //con.close();
 
 	        if (rowsAffected > 0) {
 	            System.out.println("Ticket Updated Successfully");

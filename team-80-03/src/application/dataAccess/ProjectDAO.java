@@ -14,12 +14,15 @@ import javafx.collections.ObservableList;
  */
 public class ProjectDAO {
 	
+	private static sqliteConnection conSingleton = sqliteConnection.getInstance();
+	private static Connection con = conSingleton.getConnection();
+	
 	/**
 	 * To add a project to the DB.
 	 * @param project A ProjectBean object which contains information about the project.
 	 */
 	public static void addProjectToDB(ProjectBean project) {
-		Connection con = sqliteConnection.connect();
+		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
         try {
             String sql = "INSERT INTO Projects(Name, Date, Description) VALUES(?, ?, ?)";
@@ -36,7 +39,7 @@ public class ProjectDAO {
 	}
 	
 	public static void removeProjectFromDB(ProjectBean project) {
-		Connection con = sqliteConnection.connect();
+		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
         int projectId = getProjectId(project.getProjectName());
         
@@ -77,7 +80,7 @@ public class ProjectDAO {
 	public static ObservableList<ProjectBean> getProjectsFromDB() {
 		ObservableList<ProjectBean> projects = FXCollections.observableArrayList();
 		try {
-            Connection con = sqliteConnection.connect();
+            //Connection con = sqliteConnection.connect();
             Statement statement = con.createStatement();
             String query = "SELECT Name, Date, Description FROM Projects";
             ResultSet resultSet = statement.executeQuery(query);
@@ -92,7 +95,7 @@ public class ProjectDAO {
 
             resultSet.close();
             statement.close();
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -104,7 +107,7 @@ public class ProjectDAO {
 	public static int getProjectId(String projName) {
 	    int projectId = 0;
 	    try {
-	        Connection con = sqliteConnection.connect();
+	        //Connection con = sqliteConnection.connect();
 	        String query = "SELECT id FROM Projects WHERE Name = ?";
 	        PreparedStatement preparedStatement = con.prepareStatement(query);
 	        preparedStatement.setString(1, projName);
@@ -116,7 +119,7 @@ public class ProjectDAO {
 
 	        resultSet.close();
 	        preparedStatement.close();
-	        con.close();
+	        //con.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
@@ -128,7 +131,7 @@ public class ProjectDAO {
 	    int rowsAffected = 0;
 
 	    try {
-	        Connection con = sqliteConnection.connect();
+	        //Connection con = sqliteConnection.connect();
 	        String updateQuery = "UPDATE Projects SET Name = ?, Date = ?, Description = ? WHERE id = ?";
 	        PreparedStatement ps = con.prepareStatement(updateQuery);
 	        ps.setString(1, editProjName);
@@ -138,7 +141,7 @@ public class ProjectDAO {
 
 	        rowsAffected = ps.executeUpdate();
 	        ps.close();
-	        con.close();
+	        //con.close();
 
 	        if (rowsAffected > 0) {
 	            System.out.println("Project Updated Successfully");

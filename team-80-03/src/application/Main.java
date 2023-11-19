@@ -14,7 +14,9 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
-		sqliteConnection.connect();
+		// creates one db connection instance used throughout the application
+		sqliteConnection conSingleton = sqliteConnection.getInstance();
+		//sqliteConnection.connect();
 		
 		
 		try {
