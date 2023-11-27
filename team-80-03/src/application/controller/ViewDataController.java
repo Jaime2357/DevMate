@@ -15,10 +15,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.util.Callback;
 
@@ -42,9 +44,9 @@ public class ViewDataController implements Initializable {
 	@FXML TextField searchBar;
 	
 	@FXML TextField nameEdit;
-	@FXML TextField dateEdit;
-	@FXML TextField desEdit;
-	@FXML TextField actEdit;
+	@FXML DatePicker dateEdit;
+	@FXML TextArea desEdit;
+	//@FXML TextField actEdit;
 	private String preEditName = "";
     /**
      * To display the project data in the table.
@@ -72,12 +74,12 @@ public class ViewDataController implements Initializable {
 
 		if (clickedProj != null) {
 			nameEdit.setText(String.valueOf(clickedProj.getProjectName()));
-			dateEdit.setText(String.valueOf(clickedProj.getDate()));
+			dateEdit.setValue(LocalDate.parse(clickedProj.getDate()));
 			desEdit.setText(String.valueOf(clickedProj.getProjectDesc()));
 			preEditName = String.valueOf(clickedProj.getProjectName());
 		}
-	
 	}
+	
 	public static boolean isValidDate(String dateString) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -89,13 +91,22 @@ public class ViewDataController implements Initializable {
             return false; // Parsing failed, date is invalid
         }
     }
+	
+	/**
+	 * When 'Submit' button is clicked, update project information in db
+	 */
 	@FXML 
 	public void submitEdit() {
 		String editName = nameEdit.getText();
 		String editDes = desEdit.getText();
-		String editDate = dateEdit.getText();
+		String editDate = "";
+		if (dateEdit.getValue() != null) {
+			editDate = dateEdit.getValue().toString();
+		} 
+		
 		int editedID = ProjectDAO.getProjectId(preEditName);
 
+		/*
 		if (isValidDate(editDate) != true) {
 			
 			Alert formError = new Alert(Alert.AlertType.ERROR);
@@ -107,7 +118,7 @@ public class ViewDataController implements Initializable {
 			dateEdit.clear();
 			desEdit.clear();
 			return;
-		}
+		} */
 	      
 		if (editName.isEmpty() || editDate.isEmpty() ) {
 			// Throw an exception or handle the error as needed
@@ -116,19 +127,15 @@ public class ViewDataController implements Initializable {
 			formError.setTitle("Submit Error");
 			formError.setContentText("Project name or starting date cannot be empty");
 			formError.showAndWait();
-			nameEdit.clear();
-			dateEdit.clear();
-			desEdit.clear();
+			//nameEdit.clear();
+			//dateEdit.setValue(null);
+			//desEdit.clear();
 			return;
 		}	
 		
 		ProjectDAO.editProject(editedID, editName, editDate, editDes);
-		nameEdit.clear();
-		dateEdit.clear();
-		desEdit.clear();
+		clear();
 		showData();
-		
-	
 	}
 	
 	private void initializeButtonColumn() {
@@ -188,6 +195,15 @@ public class ViewDataController implements Initializable {
 				results.add(p);
 		}
 		projectTable.setItems(results);
+	}
+
+	/**
+	 * Clear input when Cancel button is clicked
+	 */
+	@FXML public void clear() {
+		nameEdit.clear();
+		dateEdit.setValue(null);
+		desEdit.clear();
 	}
 
 }
