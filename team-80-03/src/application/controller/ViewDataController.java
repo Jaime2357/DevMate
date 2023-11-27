@@ -58,7 +58,6 @@ public class ViewDataController implements Initializable {
     	dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
     	descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("projectDesc"));
 
-    	
         projectTable.setItems(projects);
     }
 
@@ -80,6 +79,7 @@ public class ViewDataController implements Initializable {
 		}
 	}
 	
+	/*
 	public static boolean isValidDate(String dateString) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -91,6 +91,7 @@ public class ViewDataController implements Initializable {
             return false; // Parsing failed, date is invalid
         }
     }
+    */
 	
 	/**
 	 * When 'Submit' button is clicked, update project information in db
