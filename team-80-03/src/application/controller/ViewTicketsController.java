@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
@@ -40,8 +41,8 @@ public class ViewTicketsController implements Initializable{
     
     @FXML
     private TableColumn<TicketBean, String> projColumn; 
-    @FXML
-    private TableColumn<TicketBean, String> dateColumn;
+    //@FXML
+    //private TableColumn<TicketBean, String> dateColumn;
     @FXML
     private TableColumn<TicketBean, String> descriptionColumn;
     @FXML
@@ -50,8 +51,7 @@ public class ViewTicketsController implements Initializable{
 	@FXML TextField searchBar;
 
 	@FXML TextField nameEdit;
-	@FXML TextField dateEdit;
-	@FXML TextField desEdit;
+	@FXML TextArea desEdit;
 	private String preEditName = "";
     /**
      * To display the Ticket data in the table.
@@ -61,7 +61,7 @@ public class ViewTicketsController implements Initializable{
     	//String param of PropertyValueFactory is private variable names of TicketBean
     	projColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
     	nameColumn.setCellValueFactory(new PropertyValueFactory<>("ticketName"));
-    	dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+    	//dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
     	descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("ticketDesc"));
     	
     	ticketsTable.setItems(tickets);
@@ -79,7 +79,7 @@ public class ViewTicketsController implements Initializable{
 		
 		if (clickedTicket != null) {
 			nameEdit.setText(String.valueOf(clickedTicket.getTicketName()));
-			dateEdit.setText(String.valueOf(clickedTicket.getDate()));
+			//dateEdit.setText(String.valueOf(clickedTicket.getDate()));
 			desEdit.setText(String.valueOf(clickedTicket.getTicketDesc()));
 			preEditName = String.valueOf(clickedTicket.getTicketName());
 		}
@@ -91,9 +91,10 @@ public class ViewTicketsController implements Initializable{
 	public void submitEdit() {
 		String editName = nameEdit.getText();
 		String editDes = desEdit.getText();
-		String editDate = dateEdit.getText();
+		//String editDate = dateEdit.getText();
 		int editedID = TicketDAO.getTicketId(preEditName);
 
+		/*
 		if (ViewDataController.isValidDate(editDate) != true) {
 			
 			Alert formError = new Alert(Alert.AlertType.ERROR);
@@ -106,24 +107,21 @@ public class ViewTicketsController implements Initializable{
 			desEdit.clear();
 			return;
 		}
+		*/
 	      
-		if (editName.isEmpty() || editDate.isEmpty() ) {
+		if (editName.isEmpty()) {
 			// Throw an exception or handle the error as needed
 			// Display an error message to the user
 			Alert formError = new Alert(Alert.AlertType.ERROR);
 			formError.setTitle("Submit Error");
-			formError.setContentText("Ticket name or starting date cannot be empty");
+			formError.setContentText("Ticket name cannot be empty");
 			formError.showAndWait();
-			nameEdit.clear();
-			dateEdit.clear();
-			desEdit.clear();
+			//clear();
 			return;
 		}	
 		
-		TicketDAO.editTicket(editedID, editName, editDate, editDes);
-		nameEdit.clear();
-		dateEdit.clear();
-		desEdit.clear();
+		TicketDAO.editTicket(editedID, editName, LocalDate.now().toString(), editDes);
+		clear();
 		showData();
 		
 	
@@ -185,6 +183,14 @@ public class ViewTicketsController implements Initializable{
 				results.add(t);
 		}
 		ticketsTable.setItems(results);
+	}
+
+	/**
+	 * Clear input when Cancel button is clicked
+	 */
+	@FXML public void clear() {
+		nameEdit.clear();
+		desEdit.clear();
 	}
 	
 	/*
