@@ -20,14 +20,14 @@
       </Label>
       
       <TextField fx:id="timestamp" editable="false" layoutX="35.0" layoutY="155.0" prefHeight="27.0" prefWidth="189.0" />
-      <TextArea fx:id="commentDescr" layoutX="35.0" layoutY="345.0" prefHeight="95.0" prefWidth="375.0" />
+      <TextArea fx:id="commentDescr" layoutX="35.0" layoutY="360.0" prefHeight="80.0" prefWidth="375.0" />
       <Label layoutX="35.0" layoutY="76.0" prefHeight="17.0" prefWidth="118.0" text="Project Selection *" />
       <Label layoutX="35.0" layoutY="135.0" prefHeight="17.0" prefWidth="101.0" text="Timestamp" />
-      <Label layoutX="36.0" layoutY="325.0" prefHeight="17.0" prefWidth="139.0" text="Description *" />
+      <Label layoutX="40.0" layoutY="341.0" prefHeight="17.0" prefWidth="139.0" text="Description *" />
       <ChoiceBox fx:id="projSelection" layoutX="34.0" layoutY="96.0" prefWidth="150.0" />
       <Label layoutX="255.0" layoutY="76.0" prefHeight="17.0" prefWidth="101.0" text="Ticket Selection *" />
       <ChoiceBox fx:id="ticketSelection" layoutX="255.0" layoutY="96.0" prefWidth="150.0" />
-      <TableView fx:id="commentsTable" layoutX="25.0" layoutY="197.0" onMouseClicked="#rowClick" prefHeight="119.0" prefWidth="400.0" style="-fx-background-color: beige; -fx-border-color: darkcyan; -fx-font-size: 12;">
+      <TableView fx:id="commentsTable" layoutX="25.0" layoutY="211.0" onMouseClicked="#rowClick" prefHeight="119.0" prefWidth="400.0" style="-fx-background-color: beige; -fx-border-color: darkcyan; -fx-font-size: 12;">
          <columns>
             <TableColumn fx:id="descriptionColumn" editable="false" prefWidth="231.0" text="Previous Comments" />
             <TableColumn fx:id="dateColumn" editable="false" prefWidth="165.0" text="Timestamp" />
@@ -44,5 +44,6 @@
             <Button mnemonicParsing="false" onAction="#submitEdit" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: darkcyan;" text="Save Edit" textFill="WHITE" />
          </children>
       </HBox>
+      <Label alignment="CENTER" layoutX="40.0" layoutY="193.0" prefHeight="17.0" prefWidth="161.0" text="Note: Click each row to edit." textFill="DARKCYAN" />
    </children>
 </AnchorPane>
