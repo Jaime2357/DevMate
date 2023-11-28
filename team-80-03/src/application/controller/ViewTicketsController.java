@@ -182,7 +182,9 @@ public class ViewTicketsController implements Initializable{
 	@FXML public void clear() {
 		nameEdit.clear();
 		desEdit.clear();
+		searchBar.clear();
 		clickedTicket = null;
+		showData();
 	}
     
 }

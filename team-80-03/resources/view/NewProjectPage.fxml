@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: beige;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.NewProjectController">
@@ -18,11 +19,15 @@
       
       <TextField fx:id="projName" layoutX="35.0" layoutY="96.0" />
       <DatePicker fx:id="datePicker" layoutX="35.0" layoutY="164.0" onShown="#currentDate" />
-      <TextArea fx:id="projDescr" layoutX="34.0" layoutY="234.0" prefHeight="200.0" prefWidth="375.0" />
+      <TextArea fx:id="projDescr" layoutX="34.0" layoutY="234.0" prefHeight="155.0" prefWidth="375.0" />
       <Label layoutX="35.0" layoutY="76.0" prefHeight="17.0" prefWidth="101.0" text="Project Name *" />
       <Label layoutX="35.0" layoutY="144.0" prefHeight="17.0" prefWidth="101.0" text="Starting Date *" />
       <Label layoutX="35.0" layoutY="214.0" prefHeight="17.0" prefWidth="139.0" text="Description (optional)" />
-      <Button layoutX="238.0" layoutY="453.0" mnemonicParsing="false" onAction="#saveNewProjectOp" prefHeight="27.0" prefWidth="75.0" style="-fx-background-color: darkcyan;" text="Submit" textFill="WHITE" />
-      <Button layoutX="131.0" layoutY="453.0" mnemonicParsing="false" onAction="#cancelOp" prefHeight="27.0" prefWidth="75.0" style="-fx-background-color: #ceeeee;" text="Cancel" textFill="DARKCYAN" />
+      <HBox alignment="CENTER" layoutX="92.0" layoutY="449.0" prefHeight="37.0" prefWidth="265.0" spacing="40.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#cancelOp" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #ceeeee;" text="Cancel" textFill="DARKCYAN" />
+            <Button mnemonicParsing="false" onAction="#saveNewProjectOp" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: darkcyan;" text="Submit" textFill="WHITE" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

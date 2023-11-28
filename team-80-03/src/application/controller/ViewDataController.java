@@ -205,6 +205,8 @@ public class ViewDataController implements Initializable {
 		nameEdit.clear();
 		dateEdit.setValue(null);
 		desEdit.clear();
+		searchBar.clear();
+		showData();
 	}
 
 }
