@@ -9,6 +9,7 @@ public class TicketBean {
 	private String ticketName;
 	private String ticketDesc;
 	private String date;
+	private int ticketId;
 	
 	public TicketBean(String projectName, String ticketName, String ticketDesc, String date, int projId) {
 		this.projId = projId;
@@ -18,8 +19,20 @@ public class TicketBean {
 		this.date = date;
 	}
 	
+	public TicketBean(String projectName, String ticketName, String ticketDesc, String date, int projId, int ticketId) {
+		this.projId = projId;
+		this.projectName = projectName;
+		this.ticketName = ticketName;
+		this.ticketDesc = ticketDesc;
+		this.date = date;
+		this.ticketId = ticketId;
+	}
+	
 	public int getProjectId() {
 		return projId;
+	}
+	public int getTicketId() {
+		return ticketId;
 	}
 	public void setProjectId(int projectId) {
 		this.projId = projectId;

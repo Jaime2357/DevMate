@@ -59,7 +59,15 @@ public class NewProjectController {
 			formError.setTitle("Submit Error");
 			formError.setContentText("Project name or starting date cannot be empty");
 			formError.showAndWait();
-		} else {
+		} 
+		else if (ProjectDAO.projectNameExists(name)) {
+			// if project with this name already exists, alert user
+			Alert formError = new Alert(Alert.AlertType.ERROR);
+			formError.setTitle("Submit Error");
+			formError.setContentText("Project with this name already exists. Use a different name.");
+			formError.showAndWait();
+		}
+		else {
 			ProjectBean project = new ProjectBean(name, description, date.toString());
 			ProjectDAO.addProjectToDB(project);
 

@@ -41,7 +41,7 @@ public class ProjectDAO {
 	public static void removeProjectFromDB(ProjectBean project) {
 		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
-        int projectId = getProjectId(project.getProjectName());
+        int projectId = project.getProjectId();
         
         try {
             String sql = "DELETE FROM Projects WHERE id = ?";
@@ -82,14 +82,15 @@ public class ProjectDAO {
 		try {
             //Connection con = sqliteConnection.connect();
             Statement statement = con.createStatement();
-            String query = "SELECT Name, Date, Description FROM Projects";
+            String query = "SELECT id, Name, Date, Description FROM Projects";
             ResultSet resultSet = statement.executeQuery(query);
             
             while (resultSet.next()) {
+            	int id = resultSet.getInt("id");
                 String name = resultSet.getString("Name");
                 String date = resultSet.getString("Date");
                 String description = resultSet.getString("Description");
-                ProjectBean project = new ProjectBean(name, description, date);
+                ProjectBean project = new ProjectBean(name, description, date, id);
                 projects.add(project);
             }
 
@@ -141,7 +142,6 @@ public class ProjectDAO {
 
 	        rowsAffected = ps.executeUpdate();
 	        ps.close();
-	        //con.close();
 
 	        if (rowsAffected > 0) {
 	            System.out.println("Project Updated Successfully");
@@ -155,5 +155,26 @@ public class ProjectDAO {
 	    return rowsAffected;
 	}
 
+	public static boolean projectNameExists(String name) {		
+		try {
+	        String query = "SELECT * FROM Projects WHERE Name = ?";
+	        PreparedStatement preparedStatement = con.prepareStatement(query);
+	        preparedStatement.setString(1, name);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+
+	        if (resultSet.next()) {
+	            return true;
+	        }
+
+	        resultSet.close();
+	        preparedStatement.close();
+	        //con.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		
+		return false;
+	}
+	
 
 }

@@ -65,16 +65,16 @@ public class CommentDAO {
 		try {
             //Connection con = sqliteConnection.connect();
             Statement statement = con.createStatement();
-            String query = "SELECT projId, ticketId, commentDesc, commentDate FROM Comments";
+            String query = "SELECT projId, ticketId, commentId, commentDesc, commentDate FROM Comments";
             ResultSet resultSet = statement.executeQuery(query);
             
             while (resultSet.next()) {
             	int projId = resultSet.getInt("projId");
-
             	int ticketId = resultSet.getInt("ticketId");
+            	int commentId = resultSet.getInt("commentId");
             	String commentDesc = resultSet.getString("commentDesc");
                 String date = resultSet.getString("commentDate");
-                CommentBean comment = new CommentBean(projId, ticketId, commentDesc, date);
+                CommentBean comment = new CommentBean(projId, ticketId, commentDesc, date, commentId);
                 comments.add(comment);
             }
 
@@ -91,8 +91,8 @@ public class CommentDAO {
 	
 	
 	/**
-	 * To get project-specific tickets from the DB.
-	 * @return An ObservableList of ProjectBean objects
+	 * Get ticket id of specified ticket name
+	 * @return The ticket id
 	 */
 	public static int getTicketId(String target) {
 		int ticketId = 0;
@@ -144,6 +144,36 @@ public class CommentDAO {
         }
         
         return commentId;
+	}
+	
+	/**
+	 * Edit Comment by ID
+	 * @return number of db rows affected
+	 */
+	public static int editComment(int commentId, String editDesc, String timestamp) {
+	    int rowsAffected = 0;
+
+	    try {
+	        //Connection con = sqliteConnection.connect();
+	        String updateQuery = "UPDATE Comments SET commentDesc = ?, commentDate = ? WHERE commentId = ?";
+	        PreparedStatement ps = con.prepareStatement(updateQuery);
+	        ps.setString(1, editDesc);
+	        ps.setString(2, timestamp);
+	        ps.setInt(3, commentId);
+
+	        rowsAffected = ps.executeUpdate();
+	        ps.close();
+
+	        if (rowsAffected > 0) {
+	            System.out.println("Comment Updated Successfully");
+	        } else {
+	            System.out.println("Comment Not Found or No Changes Made");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return rowsAffected;
 	}
 
 }

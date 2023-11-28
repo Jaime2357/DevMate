@@ -56,7 +56,15 @@ public class NewTicketController {
 			formError.setTitle("Submit Error");
 			formError.setContentText("Project selection or ticket title cannot be empty");
 			formError.showAndWait();
-		} else {
+		} 
+		else if (TicketDAO.ticketNameExists(name, projId)) {
+			// if project with this name already exists, alert user
+			Alert formError = new Alert(Alert.AlertType.ERROR);
+			formError.setTitle("Submit Error");
+			formError.setContentText("A ticket with this title already exists in this project. Use a different title.");
+			formError.showAndWait();
+		}
+		else {
 			TicketBean ticket = new TicketBean(projName, name, description, date.toString(), projId);
 			TicketDAO.addTicketToDB(ticket);
 

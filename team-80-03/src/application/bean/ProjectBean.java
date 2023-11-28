@@ -7,6 +7,7 @@ public class ProjectBean {
 	private String projectName;
 	private String projectDesc;
 	private String date;
+	private int projectId;
 	
 	public ProjectBean(String projectName, String projectDesc, String date) {
 		this.projectName = projectName;
@@ -14,6 +15,16 @@ public class ProjectBean {
 		this.date = date;
 	}
 	
+	public ProjectBean(String projectName, String projectDesc, String date, int projectId) {
+		this.projectName = projectName;
+		this.projectDesc = projectDesc;
+		this.date = date;
+		this.projectId = projectId;
+	}
+	
+	public int getProjectId() {
+		return projectId;
+	}
 	public String getProjectName() {
 		return projectName;
 	}

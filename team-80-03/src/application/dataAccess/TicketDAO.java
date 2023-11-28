@@ -45,7 +45,7 @@ public class TicketDAO {
 	public static void removeTicketFromDB(TicketBean ticket) {
 		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
-        int ticketId = getTicketId(ticket.getTicketName());
+        int ticketId = ticket.getTicketId();
         try {
             String sql = "DELETE FROM Tickets WHERE ticketID = ?";
             ps = con.prepareStatement(sql);
@@ -76,16 +76,17 @@ public class TicketDAO {
 		try {
             //Connection con = sqliteConnection.connect();
             Statement statement = con.createStatement();
-            String query = "SELECT projId, projName, ticketName, ticketDate, ticketDesc FROM Tickets";
+            String query = "SELECT projId, ticketID, projName, ticketName, ticketDate, ticketDesc FROM Tickets";
             ResultSet resultSet = statement.executeQuery(query);
             
             while (resultSet.next()) {
             	int projId = resultSet.getInt("projId");
+            	int ticketId = resultSet.getInt("ticketID");
             	String projName = resultSet.getString("projName");
                 String ticketName = resultSet.getString("ticketName");
                 String date = resultSet.getString("ticketDate");
                 String description = resultSet.getString("ticketDesc");
-                TicketBean ticket = new TicketBean(projName, ticketName, description, date, projId);
+                TicketBean ticket = new TicketBean(projName, ticketName, description, date, projId, ticketId);
                 tickets.add(ticket);
             }
 
@@ -139,14 +140,15 @@ public class TicketDAO {
 	 * To get ticket id from the DB via ticket name.
 	 * @return ticketID
 	 */
-	public static int getTicketId(String tickName) {
+	public static int getTicketId(String tickName, int projId) {
 	    int ticketId = -1;
 	    System.out.println(tickName + " getting name ... ");
 	    try {
 	        //Connection con = sqliteConnection.connect();
-	        String query = "SELECT ticketID FROM Tickets WHERE ticketName = ?";
+	        String query = "SELECT ticketID FROM Tickets WHERE ticketName = ? AND projId = ?";
 	        PreparedStatement preparedStatement = con.prepareStatement(query);
 	        preparedStatement.setString(1, tickName);
+	        preparedStatement.setInt(2, projId);
 	        ResultSet resultSet = preparedStatement.executeQuery();
 
 	        if (resultSet.next()) {
@@ -159,12 +161,12 @@ public class TicketDAO {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-
 	    return ticketId;
 	}
+	
 	/**
 	 * Edit Ticket by ID
-	 * @return
+	 * @return number of db rows affected
 	 */
 	public static int editTicket(int ticketId, String editName, String editDate, String editDesc) {
 	    int rowsAffected = 0;
@@ -192,5 +194,32 @@ public class TicketDAO {
 	    }
 
 	    return rowsAffected;
+	}
+	
+	/**
+	 * Checks if there is already ticket with this title for the project it will belong to
+	 * @param tickName
+	 * @return true if ticket title already in use, false otherwise
+	 */
+	public static boolean ticketNameExists(String tickName, int projId) {		
+		try {
+	        String query = "SELECT * FROM Tickets WHERE ticketName = ? AND projId = ?";
+	        PreparedStatement preparedStatement = con.prepareStatement(query);
+	        preparedStatement.setString(1, tickName);
+	        preparedStatement.setInt(2, projId);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+
+	        if (resultSet.next()) {
+	            return true;
+	        }
+
+	        resultSet.close();
+	        preparedStatement.close();
+	        //con.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		
+		return false;
 	}
 }

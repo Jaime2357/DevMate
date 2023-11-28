@@ -72,10 +72,14 @@ public class ViewTicketsController implements Initializable{
 		showData();
 		initializeButtonColumn();
 	}
+	
+	//private int editedID = -1;
+	private TicketBean clickedTicket = null;
+	
 	@FXML 
 	public void rowClick() {
 		
-		TicketBean clickedTicket = ticketsTable.getSelectionModel().getSelectedItem();
+		clickedTicket = ticketsTable.getSelectionModel().getSelectedItem();
 		
 		if (clickedTicket != null) {
 			nameEdit.setText(String.valueOf(clickedTicket.getTicketName()));
@@ -83,31 +87,18 @@ public class ViewTicketsController implements Initializable{
 			desEdit.setText(String.valueOf(clickedTicket.getTicketDesc()));
 			preEditName = String.valueOf(clickedTicket.getTicketName());
 		}
-		
-
 	}
 
 	@FXML 
 	public void submitEdit() {
 		String editName = nameEdit.getText();
 		String editDes = desEdit.getText();
-		//String editDate = dateEdit.getText();
-		int editedID = TicketDAO.getTicketId(preEditName);
-
-		/*
-		if (ViewDataController.isValidDate(editDate) != true) {
-			
-			Alert formError = new Alert(Alert.AlertType.ERROR);
-			formError.setTitle("Submit Error");
-			formError.setContentText("Invalid Date Form!");
-			formError.showAndWait();
-
-			nameEdit.clear();
-			dateEdit.clear();
-			desEdit.clear();
-			return;
+		
+		int editedID = -1;
+		if (clickedTicket != null) {
+			editedID = clickedTicket.getTicketId();
+			//editedID = TicketDAO.getTicketId(preEditName, clickedTicket.getProjectId());
 		}
-		*/
 	      
 		if (editName.isEmpty()) {
 			// Throw an exception or handle the error as needed
@@ -191,35 +182,7 @@ public class ViewTicketsController implements Initializable{
 	@FXML public void clear() {
 		nameEdit.clear();
 		desEdit.clear();
+		clickedTicket = null;
 	}
-	
-	/*
-	public static int editTicket(int ticketID, String editProjName, String editDate, String editDesc) {
-	    int rowsAffected = 0;
-
-	    try {
-	        Connection con = sqliteConnection.connect();
-	        String updateQuery = "UPDATE Projects SET Name = ?, Date = ?, Description = ? WHERE id = ?";
-	        PreparedStatement ps = con.prepareStatement(updateQuery);
-	        ps.setString(1, editProjName);
-	        ps.setString(2, editDate);
-	        ps.setString(3, editDesc);
-	        ps.setInt(4, ticketID);
-
-	        rowsAffected = ps.executeUpdate();
-	        ps.close();
-	        con.close();
-
-	        if (rowsAffected > 0) {
-	            System.out.println("Ticket Updated Successfully");
-	        } else {
-	            System.out.println("Ticket Not Found or No Changes Made");
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-
-	    return rowsAffected;
-	} */
     
 }

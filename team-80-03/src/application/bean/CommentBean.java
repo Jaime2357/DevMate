@@ -8,6 +8,7 @@ public class CommentBean {
 	private int ticketId;
 	private String comment;
 	private String date;
+	private int commentId;
 	
 	public CommentBean(int projId, int ticketId, String comment, String date) {
 		this.projId = projId;
@@ -16,6 +17,13 @@ public class CommentBean {
 		this.date = date;
 	}
 	
+	public CommentBean(int projId, int ticketId, String comment, String date, int commentId) {
+		this.projId = projId;
+		this.ticketId = ticketId;
+		this.comment = comment;
+		this.date = date;
+		this.commentId = commentId;
+	}
 
 	
 	public int getProjId() {
@@ -23,6 +31,9 @@ public class CommentBean {
 	}
 	public int getTicketId() {
 		return ticketId;
+	}
+	public int getCommentId() {
+		return commentId;
 	}
 	public void setTicketId(int ticketId) {
 		this.ticketId = ticketId;

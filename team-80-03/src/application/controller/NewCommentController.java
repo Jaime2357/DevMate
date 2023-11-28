@@ -48,8 +48,7 @@ public class NewCommentController {
 		createProjectSelection();
 		// populate ticket drop down list based on the project selected
 		projSelection.setOnAction(this::createTicketSelection);
-		currentDateTime();
-		 // Add a ChangeListener to the ticketSelection
+		// Add a ChangeListener to the ticketSelection
 	    ticketSelection.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 	        @Override
 	        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -135,18 +134,25 @@ public class NewCommentController {
         }
     }
     
+    private CommentBean clickedComment = null;	
+    
+    @FXML 
+	public void rowClick() {
+		clickedComment = commentsTable.getSelectionModel().getSelectedItem();
+		if (clickedComment != null) {
+			commentDescr.setText(String.valueOf(clickedComment.getComment()));
+		}
+	}
 
 	@FXML public void saveNewComment() {
 		// get input
 		String projName = projSelection.getValue();
 		int projId = ProjectDAO.getProjectId(projName);
+				
 		String ticketName = ticketSelection.getValue();
+		int ticketId = TicketDAO.getTicketId(ticketName, projId);
 		
-		int ticketId = TicketDAO.getTicketId(ticketName);
-		
-		String description = commentDescr.getText().trim();
-		String datetime = timestamp.getText();
-		
+		String description = commentDescr.getText().trim();		
 		
 		if (projName == null || ticketName == null || description.isEmpty()) {
 			// Throw an exception or handle the error as needed
@@ -155,16 +161,37 @@ public class NewCommentController {
 			formError.setTitle("Submit Error");
 			formError.setContentText("Project selection, ticket selection, or description cannot be empty");
 			formError.showAndWait();
-		} else {
+		}
+		else {
 			
-			CommentBean comment = new CommentBean(projId, ticketId, description, datetime);			
+			CommentBean comment = new CommentBean(projId, ticketId, description, currentDateTime());			
 			CommentDAO.addCommentToDB(comment);
 			
 		}
 		showData();
+		clickedComment = null;
+		currentDateTime();
 		commentDescr.clear();
 	}
 
+	@FXML public void submitEdit() {
+		if (clickedComment == null) {
+			Alert formError = new Alert(Alert.AlertType.ERROR);
+			formError.setTitle("Submit Error");
+			formError.setContentText("Select a comment to edit");
+			formError.showAndWait();
+			return;
+		}
+		String editDes = commentDescr.getText();
+		int editedID = clickedComment.getCommentId();
+		CommentDAO.editComment(editedID, editDes, currentDateTime());
+		
+		showData();
+		clickedComment = null;
+		currentDateTime();
+		commentDescr.clear();
+	}
+	
 	
 	/**
 	 * Get projects from DB and populate drop down menu with project names,
@@ -202,15 +229,16 @@ public class NewCommentController {
 
 	}
 	
-	
 	/**
 	 * Displays the current date-time in the non-editable text field.
+	 * @return String of the current date-time
 	 */
 	@FXML
-	public void currentDateTime() {
+	public String currentDateTime() {
 		String date = LocalDate.now().toString();
 		String time = LocalTime.now().toString();
 		timestamp.setText(date + " " + time);
+		return (date + " " + time);
 		//timestamp.setText(LocalDateTime.now().toString());
 	}
 	
@@ -223,6 +251,7 @@ public class NewCommentController {
 		projSelection.setValue(null);
 		ticketSelection.setValue(null);
 		currentDateTime();
+		clickedComment = null;
 	}
 	
 }
