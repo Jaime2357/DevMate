@@ -3,7 +3,6 @@ package application.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Collections;
 
 import application.CommonObjs;
@@ -28,7 +27,7 @@ import javafx.scene.control.ChoiceBox;
 public class NewTicketController {
 	// instance of the CommonObjs, use when navigating to another page
 	private CommonObjs commonObjs = CommonObjs.getInstance();
-	private ProjectBean currentProj;
+
 	@FXML TextField ticketName;
 	@FXML TextArea ticketDescr;
 	@FXML ChoiceBox<String> projSelection;
@@ -41,6 +40,10 @@ public class NewTicketController {
 		createSelection();
 	}
 	
+	/**
+	 * When user clicks the 'Save' button, save the input from project selection, 
+	 * text area, and date picker.
+	 */
 	@FXML public void saveNewTicket() {
 		// get input
 		String projName = projSelection.getValue();

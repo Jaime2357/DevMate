@@ -15,9 +15,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		// creates one db connection instance used throughout the application
-		sqliteConnection conSingleton = sqliteConnection.getInstance();
-		//sqliteConnection.connect();
-		
+		sqliteConnection conSingleton = sqliteConnection.getInstance();		
 		
 		try {
 			HBox mainBox = (HBox)FXMLLoader.load(getClass().getClassLoader().getResource("view/Main.fxml"));
@@ -37,7 +35,6 @@ public class Main extends Application {
 	
 	// Launch DevMate application
 	public static void main(String[] args) {
-	
 		launch(args);
 	}
 }

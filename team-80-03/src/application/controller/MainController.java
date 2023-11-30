@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 public class MainController {
 	
 	@FXML HBox mainBox;
+	private CommonObjs commonObjs = CommonObjs.getInstance();
 	
 	/**
 	 * Load the home page when the application starts.
@@ -113,9 +114,8 @@ public class MainController {
 		}
 	}
 	
-	
 	/**
-	 * When the 'View Data' button is clicked, application navigates to the View Data page.
+	 * When the 'View Data' button is clicked, application navigates to the View Projects page.
 	 */
 	@FXML public void showViewData() {
 
@@ -137,9 +137,8 @@ public class MainController {
 		}
 	}
 	
-	
 	/**
-	 * When the 'View Data' button is clicked, application navigates to the View Data page.
+	 * When the 'View Ticket' button is clicked, application navigates to the View Ticket page.
 	 */
 	@FXML public void showViewTickets() {
 
@@ -161,9 +160,6 @@ public class MainController {
 		}
 	}
 	
-	
-	private CommonObjs commonObjs = CommonObjs.getInstance();
-
 	/**
 	 * When user clicks 'Back to Home page', application navigates to the Home page.
 	 */

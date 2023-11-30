@@ -1,8 +1,6 @@
 package application.controller;
 
 import java.time.LocalDate;
-
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collections;
 
@@ -10,9 +8,7 @@ import application.CommonObjs;
 import application.bean.CommentBean;
 import application.bean.ProjectBean;
 import application.bean.TicketBean;
-//import application.controller.ViewTicketsController.ButtonCell;
 import application.dataAccess.CommentDAO;
-
 import application.dataAccess.ProjectDAO;
 import application.dataAccess.TicketDAO;
 import javafx.collections.FXCollections;
@@ -32,14 +28,28 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.util.Callback;
 
+/**
+ * This class is for controlling the Comment page of the application.
+ * Can save new, edit previously saved, and delete comments.
+ */
 public class NewCommentController {
-
+	
 	@FXML TextField timestamp;
 	@FXML TextArea commentDescr;
 	@FXML ChoiceBox<String> projSelection;
 	@FXML ChoiceBox<String> ticketSelection;
 	
-
+	@FXML
+    private TableView<CommentBean> commentsTable;
+    @FXML
+    private TableColumn<CommentBean, String> dateColumn;
+    @FXML
+    private TableColumn<CommentBean, String> descriptionColumn;
+    @FXML
+    private TableColumn<CommentBean, String> actionColumn;
+    
+    private CommentBean clickedComment = null;	
+    
 	/**
 	 * Automatically populate the drop down menus with existing projects and tickets.
 	 */
@@ -70,6 +80,9 @@ public class NewCommentController {
         actionColumn.setCellFactory(cellFactory);
     }
 	
+	/**
+	 * Delete functionality for Comments.
+	 */
 	private class ButtonCell extends TableCell<CommentBean, String> {
         final Button cellButton = new Button("Delete");
 
@@ -94,20 +107,8 @@ public class NewCommentController {
         }
     }
 	
-
-	private CommonObjs commonObjs = CommonObjs.getInstance();
-	
-    @FXML
-    private TableView<CommentBean> commentsTable;
-    @FXML
-    private TableColumn<CommentBean, String> dateColumn;
-    @FXML
-    private TableColumn<CommentBean, String> descriptionColumn;
-    @FXML
-    private TableColumn<CommentBean, String> actionColumn;
-
     /**
-     * To display the comments in the table.
+     * Displays the comments in the table.
      */
     public void showData(){    
         ObservableList<CommentBean> allComments = CommentDAO.getCommentsFromDB();
@@ -134,8 +135,9 @@ public class NewCommentController {
         }
     }
     
-    private CommentBean clickedComment = null;	
-    
+    /**
+     * Fill in description box with clicked comment information.
+     */
     @FXML 
 	public void rowClick() {
 		clickedComment = commentsTable.getSelectionModel().getSelectedItem();
@@ -144,6 +146,9 @@ public class NewCommentController {
 		}
 	}
 
+    /**
+     * When 'Save New' button clicked, save information as a new comment in db.
+     */
 	@FXML public void saveNewComment() {
 		// get input
 		String projName = projSelection.getValue();
@@ -163,17 +168,19 @@ public class NewCommentController {
 			formError.showAndWait();
 		}
 		else {
-			
 			CommentBean comment = new CommentBean(projId, ticketId, description, currentDateTime());			
 			CommentDAO.addCommentToDB(comment);
-			
 		}
+		
 		showData();
 		clickedComment = null;
 		currentDateTime();
 		commentDescr.clear();
 	}
 
+	/**
+     * When 'Save Edit' button clicked, comment information in db.
+     */
 	@FXML public void submitEdit() {
 		if (clickedComment == null) {
 			Alert formError = new Alert(Alert.AlertType.ERROR);
@@ -191,7 +198,6 @@ public class NewCommentController {
 		currentDateTime();
 		commentDescr.clear();
 	}
-	
 	
 	/**
 	 * Get projects from DB and populate drop down menu with project names,
@@ -226,7 +232,6 @@ public class NewCommentController {
 		ticketSelection.setItems(ticketNames);
 		
 	    showData();
-
 	}
 	
 	/**

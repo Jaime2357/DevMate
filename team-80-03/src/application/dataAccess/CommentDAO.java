@@ -7,12 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import application.bean.CommentBean;
-import application.bean.TicketBean;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * This class is for accessing ticket information from the DB.
+ * This class is for accessing comment information from the DB.
  */
 public class CommentDAO {
 	
@@ -20,11 +19,10 @@ public class CommentDAO {
 	private static Connection con = conSingleton.getConnection();
 	
 	/**
-	 * To add a ticket to the DB.
-	 * @param ticket A TicketBean object which contains information about the ticket.
+	 * Adds a comment to the DB.
+	 * @param comment A CommentBean object which contains information about the comment.
 	 */
 	public static void addCommentToDB(CommentBean comment) {
-		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
         try {
             String sql = "INSERT INTO Comments(projId, ticketId, commentDesc, commentDate) VALUES(?, ?, ?, ?)";
@@ -38,11 +36,13 @@ public class CommentDAO {
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
-		
 	}
 	
+	/**
+	 * Deletes a comment from the DB.
+	 * @param comment The comment to delete.
+	 */
 	public static void removeCommentFromDB(CommentBean comment) {
-		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
         int commentId = getCommentId(comment);
         try {
@@ -57,13 +57,12 @@ public class CommentDAO {
 	}
 	
 	/**
-	 * To get tickets from the DB, used for displaying the information about the ticket.
-	 * @return An ObservableList of TicketBean objects
+	 * Gets all comments from the DB, used for displaying the information about the comment.
+	 * @return An ObservableList of CommentBean objects
 	 */
 	public static ObservableList<CommentBean> getCommentsFromDB() {
 		ObservableList<CommentBean> comments = FXCollections.observableArrayList();
 		try {
-            //Connection con = sqliteConnection.connect();
             Statement statement = con.createStatement();
             String query = "SELECT projId, ticketId, commentId, commentDesc, commentDate FROM Comments";
             ResultSet resultSet = statement.executeQuery(query);
@@ -80,25 +79,23 @@ public class CommentDAO {
 
             resultSet.close();
             statement.close();
-            //con.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         
-//        System.out.println(projects.toString());
         return comments;
 	}
 	
 	
 	/**
 	 * Get ticket id of specified ticket name
+	 * @param target The name of the ticket to get the id for
 	 * @return The ticket id
 	 */
 	public static int getTicketId(String target) {
 		int ticketId = 0;
-		try {
-            //Connection con = sqliteConnection.connect();
-            
+		try {            
             String query = "SELECT ticketId FROM Tickets WHERE ticketName = ?";
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, target);
@@ -110,7 +107,7 @@ public class CommentDAO {
 
             resultSet.close();
             statement.close();
-            //con.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -118,11 +115,14 @@ public class CommentDAO {
         return ticketId;
 	}
 	
+	/**
+	 * Gets the id of the specified comment
+	 * @param target The comment to get the id of
+	 * @return The id of the comment
+	 */
 	public static int getCommentId(CommentBean target) {
 		int commentId = 0;
-		try {
-            //Connection con = sqliteConnection.connect();
-            
+		try {            
             String query = "SELECT commentId FROM Comments WHERE projId = ? "
             		+ "AND ticketId = ? AND commentDesc = ? AND commentDate = ?";
             PreparedStatement statement = con.prepareStatement(query);
@@ -138,7 +138,7 @@ public class CommentDAO {
 
             resultSet.close();
             statement.close();
-            //con.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -147,14 +147,16 @@ public class CommentDAO {
 	}
 	
 	/**
-	 * Edit Comment by ID
-	 * @return number of db rows affected
+	 * Updates comment information in the db.
+	 * @param commentId The ID of the comment to edit
+	 * @param editDesc The new comment description
+	 * @param timestamp The new timestamp of the comment
+	 * @return The number of db rows affected
 	 */
 	public static int editComment(int commentId, String editDesc, String timestamp) {
 	    int rowsAffected = 0;
 
 	    try {
-	        //Connection con = sqliteConnection.connect();
 	        String updateQuery = "UPDATE Comments SET commentDesc = ?, commentDate = ? WHERE commentId = ?";
 	        PreparedStatement ps = con.prepareStatement(updateQuery);
 	        ps.setString(1, editDesc);

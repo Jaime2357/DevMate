@@ -5,20 +5,22 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * This class is for connecting to SQLite.
+ * This class is for connecting to SQLite. Singleton design pattern.
  */
 public class sqliteConnection {
 	
 	private static sqliteConnection singleCon = new sqliteConnection();
 	private Connection con = null;
 	
+	/**
+	 * Open connection when instance created and close connection when application closes.
+	 */
 	private sqliteConnection() {
 		connect();
 		Runtime.getRuntime().addShutdownHook(new Thread(this::closeConnection));
 	}
 	
 	private Connection connect() {
-		//Connection con = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:DevMate.db");

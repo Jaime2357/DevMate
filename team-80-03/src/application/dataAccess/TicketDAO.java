@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import application.bean.ProjectBean;
 import application.bean.TicketBean;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,11 +19,10 @@ public class TicketDAO {
 	private static Connection con = conSingleton.getConnection();
 	
 	/**
-	 * To add a ticket to the DB.
+	 * Adds a ticket to the DB.
 	 * @param ticket A TicketBean object which contains information about the ticket.
 	 */
 	public static void addTicketToDB(TicketBean ticket) {
-		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
         try {
             String sql = "INSERT INTO Tickets(projId, projName, ticketName, ticketDesc, ticketDate) VALUES(?, ?, ?, ?, ?)";
@@ -39,11 +37,13 @@ public class TicketDAO {
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
-		
 	}
 	
+	/**
+	 * Deletes a ticket from the DB and all corresponding comments.
+	 * @param ticket The ticket to delete.
+	 */
 	public static void removeTicketFromDB(TicketBean ticket) {
-		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
         int ticketId = ticket.getTicketId();
         try {
@@ -51,14 +51,14 @@ public class TicketDAO {
             ps = con.prepareStatement(sql);
             ps.setString(1, String.valueOf(ticketId));
             ps.execute();
-            System.out.println("Data Removed");
+            System.out.println("Ticket Removed");
             
             try {
                 sql = "DELETE FROM Comments WHERE ticketId = ?";
                 ps = con.prepareStatement(sql);
                 ps.setString(1, String.valueOf(ticketId));
                 ps.execute();
-                System.out.println("Data Removed");
+                System.out.println("Ticket's comments Removed");
             } catch (SQLException e) {
                 System.out.println(e.toString());
             }
@@ -68,13 +68,12 @@ public class TicketDAO {
 	}
 	
 	/**
-	 * To get tickets from the DB, used for displaying the information about the ticket.
+	 * Gets all tickets from the DB, used for displaying the information about the ticket.
 	 * @return An ObservableList of TicketBean objects
 	 */
 	public static ObservableList<TicketBean> getTicketsFromDB() {
 		ObservableList<TicketBean> tickets = FXCollections.observableArrayList();
 		try {
-            //Connection con = sqliteConnection.connect();
             Statement statement = con.createStatement();
             String query = "SELECT projId, ticketID, projName, ticketName, ticketDate, ticketDesc FROM Tickets";
             ResultSet resultSet = statement.executeQuery(query);
@@ -92,26 +91,23 @@ public class TicketDAO {
 
             resultSet.close();
             statement.close();
-            //con.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         
-//        System.out.println(projects.toString());
         return tickets;
 	}
 	
 	
 	/**
-	 * To get project-specific tickets from the DB.
-	 * @return An ObservableList of ProjectBean objects
+	 * Gets project-specific tickets from the DB.
+	 * @return An ObservableList of TicketBean objects for a certain project
 	 */
 	public static ObservableList<TicketBean> getProjTickets(String targetProjectName) {
 		ObservableList<TicketBean> tickets = FXCollections.observableArrayList();
 		int targetProjId = ProjectDAO.getProjectId(targetProjectName);
-		try {
-            //Connection con = sqliteConnection.connect();
-            
+		try {            
             String query = "SELECT projId, projName, ticketName, ticketDate, ticketDesc FROM Tickets WHERE projId = ?";
             PreparedStatement statement = con.prepareStatement(query);
             statement.setInt(1, targetProjId);
@@ -129,7 +125,7 @@ public class TicketDAO {
 
             resultSet.close();
             statement.close();
-            //con.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -137,14 +133,13 @@ public class TicketDAO {
         return tickets;
 	}
 	/**
-	 * To get ticket id from the DB via ticket name.
-	 * @return ticketID
+	 * Gets the ticket id from ticket name and project id.
+	 * @return the ticket ID
 	 */
 	public static int getTicketId(String tickName, int projId) {
 	    int ticketId = -1;
 	    System.out.println(tickName + " getting name ... ");
 	    try {
-	        //Connection con = sqliteConnection.connect();
 	        String query = "SELECT ticketID FROM Tickets WHERE ticketName = ? AND projId = ?";
 	        PreparedStatement preparedStatement = con.prepareStatement(query);
 	        preparedStatement.setString(1, tickName);
@@ -157,7 +152,7 @@ public class TicketDAO {
 
 	        resultSet.close();
 	        preparedStatement.close();
-	        //con.close();
+
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
@@ -165,14 +160,17 @@ public class TicketDAO {
 	}
 	
 	/**
-	 * Edit Ticket by ID
-	 * @return number of db rows affected
+	 * Updates ticket information in the db.
+	 * @param ticketId The ID of the ticket to edit
+	 * @param editName The new ticket name
+	 * @param editDate The edit date
+	 * @param editDesc The new ticket description
+	 * @return The number of db rows affected
 	 */
 	public static int editTicket(int ticketId, String editName, String editDate, String editDesc) {
 	    int rowsAffected = 0;
 
 	    try {
-	        //Connection con = sqliteConnection.connect();
 	        String updateQuery = "UPDATE Tickets SET ticketName = ?, ticketDate = ?, ticketDesc = ? WHERE ticketID = ?";
 	        PreparedStatement ps = con.prepareStatement(updateQuery);
 	        ps.setString(1, editName);
@@ -182,7 +180,6 @@ public class TicketDAO {
 
 	        rowsAffected = ps.executeUpdate();
 	        ps.close();
-	        //con.close();
 
 	        if (rowsAffected > 0) {
 	            System.out.println("Ticket Updated Successfully");
@@ -198,8 +195,9 @@ public class TicketDAO {
 	
 	/**
 	 * Checks if there is already ticket with this title for the project it will belong to
-	 * @param tickName
-	 * @return true if ticket title already in use, false otherwise
+	 * @param tickName The ticket name to check for
+	 * @param projID The ID of the project it will belong to
+	 * @return true if ticket name already in use, false otherwise
 	 */
 	public static boolean ticketNameExists(String tickName, int projId) {		
 		try {
@@ -215,7 +213,7 @@ public class TicketDAO {
 
 	        resultSet.close();
 	        preparedStatement.close();
-	        //con.close();
+
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }

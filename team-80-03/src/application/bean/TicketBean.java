@@ -1,7 +1,7 @@
 package application.bean;
 
 /**
- * This class is for the information about a project.
+ * This class is for the information about a ticket.
  */
 public class TicketBean {
 	private int projId;

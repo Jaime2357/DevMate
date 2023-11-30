@@ -18,11 +18,10 @@ public class ProjectDAO {
 	private static Connection con = conSingleton.getConnection();
 	
 	/**
-	 * To add a project to the DB.
+	 * Adds a project to the DB.
 	 * @param project A ProjectBean object which contains information about the project.
 	 */
 	public static void addProjectToDB(ProjectBean project) {
-		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
         try {
             String sql = "INSERT INTO Projects(Name, Date, Description) VALUES(?, ?, ?)";
@@ -35,11 +34,13 @@ public class ProjectDAO {
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
-		
 	}
 	
+	/**
+	 * Deletes a project from the DB and all corresponding tickets and comments.
+	 * @param project The project to delete.
+	 */
 	public static void removeProjectFromDB(ProjectBean project) {
-		//Connection con = sqliteConnection.connect();
         PreparedStatement ps = null;
         int projectId = project.getProjectId();
         
@@ -55,13 +56,13 @@ public class ProjectDAO {
                 ps = con.prepareStatement(sql);
                 ps.setString(1, String.valueOf(projectId));
                 ps.execute();
-                System.out.println("Project Removed");
+                System.out.println("Project's tickets Removed");
                 try {
                     sql = "DELETE FROM Comments WHERE projId = ?";
                     ps = con.prepareStatement(sql);
                     ps.setString(1, String.valueOf(projectId));
                     ps.execute();
-                    System.out.println("Project Removed");
+                    System.out.println("Project ticket's comments Removed");
                 } catch (SQLException e) {
                     System.out.println(e.toString());
                 }
@@ -74,13 +75,12 @@ public class ProjectDAO {
 	}
 	
 	/**
-	 * To get a projects from the DB, used for displaying the information about the project.
+	 * Gets all projects from the DB, used for displaying the information about the project.
 	 * @return An ObservableList of ProjectBean objects
 	 */
 	public static ObservableList<ProjectBean> getProjectsFromDB() {
 		ObservableList<ProjectBean> projects = FXCollections.observableArrayList();
 		try {
-            //Connection con = sqliteConnection.connect();
             Statement statement = con.createStatement();
             String query = "SELECT id, Name, Date, Description FROM Projects";
             ResultSet resultSet = statement.executeQuery(query);
@@ -96,19 +96,21 @@ public class ProjectDAO {
 
             resultSet.close();
             statement.close();
-            //con.close();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
         
-//        System.out.println(projects.toString());
         return projects;
 	}
 	
+	/**
+	 * Gets the project ID from a project's name.
+	 * @return the project ID as stored in the db
+	 */
 	public static int getProjectId(String projName) {
 	    int projectId = 0;
 	    try {
-	        //Connection con = sqliteConnection.connect();
 	        String query = "SELECT id FROM Projects WHERE Name = ?";
 	        PreparedStatement preparedStatement = con.prepareStatement(query);
 	        preparedStatement.setString(1, projName);
@@ -120,7 +122,7 @@ public class ProjectDAO {
 
 	        resultSet.close();
 	        preparedStatement.close();
-	        //con.close();
+
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
@@ -128,11 +130,18 @@ public class ProjectDAO {
 	    return projectId;
 	}
 	
+	/**
+	 * Updates project information in the db.
+	 * @param projectId The ID of the project to edit
+	 * @param editProjName The new project name
+	 * @param editDate The new project start date
+	 * @param editDesc The new project description
+	 * @return The number of db rows affected
+	 */
 	public static int editProject(int projectId, String editProjName, String editDate, String editDesc) {
 	    int rowsAffected = 0;
 
 	    try {
-	        //Connection con = sqliteConnection.connect();
 	        String updateQuery = "UPDATE Projects SET Name = ?, Date = ?, Description = ? WHERE id = ?";
 	        PreparedStatement ps = con.prepareStatement(updateQuery);
 	        ps.setString(1, editProjName);
@@ -155,6 +164,11 @@ public class ProjectDAO {
 	    return rowsAffected;
 	}
 
+	/**
+	 * Checks if a project already exists with the given name.
+	 * @param name Project name to check for
+	 * @return true if a project with the name already exists, false otherwise
+	 */
 	public static boolean projectNameExists(String name) {		
 		try {
 	        String query = "SELECT * FROM Projects WHERE Name = ?";
@@ -168,13 +182,12 @@ public class ProjectDAO {
 
 	        resultSet.close();
 	        preparedStatement.close();
-	        //con.close();
+
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
 		
 		return false;
 	}
-	
 
 }

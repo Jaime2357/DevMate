@@ -1,12 +1,8 @@
 package application.controller;
 
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
-import application.CommonObjs;
 import application.bean.ProjectBean;
 import application.dataAccess.ProjectDAO;
 import javafx.collections.FXCollections;
@@ -28,7 +24,6 @@ import javafx.util.Callback;
  * This class is for controlling the View Data page of the application.
  */
 public class ViewDataController implements Initializable {
-	private CommonObjs commonObjs = CommonObjs.getInstance();
     
     @FXML
     private TableView<ProjectBean> projectTable;
@@ -42,14 +37,21 @@ public class ViewDataController implements Initializable {
     private TableColumn<ProjectBean, String> actionColumn;
 
 	@FXML TextField searchBar;
-	
 	@FXML TextField nameEdit;
 	@FXML DatePicker dateEdit;
 	@FXML TextArea desEdit;
-	//@FXML TextField actEdit;
+		
 	private String preEditName = "";
+	private ProjectBean clickedProj = null;
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		showData();
+		initializeButtonColumn();
+	}
+	
     /**
-     * To display the project data in the table.
+     * Displays the project data in the table.
      */
     public void showData(){    
     	ObservableList<ProjectBean> projects = ProjectDAO.getProjectsFromDB();
@@ -60,16 +62,13 @@ public class ViewDataController implements Initializable {
 
         projectTable.setItems(projects);
     }
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		showData();
-		initializeButtonColumn();
-	}
 	
+    /**
+     * Fill in editing box with clicked project information.
+     */
 	@FXML 
 	public void rowClick() {
-		ProjectBean clickedProj = projectTable.getSelectionModel().getSelectedItem();
+		clickedProj = projectTable.getSelectionModel().getSelectedItem();
 
 		if (clickedProj != null) {
 			nameEdit.setText(String.valueOf(clickedProj.getProjectName()));
@@ -79,22 +78,8 @@ public class ViewDataController implements Initializable {
 		}
 	}
 	
-	/*
-	public static boolean isValidDate(String dateString) {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        try {
-            // Try to parse the string into a LocalDate
-            LocalDate.parse(dateString, dateFormatter);
-            return true; // Parsing successful, date is valid
-        } catch (DateTimeParseException e) {
-            return false; // Parsing failed, date is invalid
-        }
-    }
-    */
-	
 	/**
-	 * When 'Submit' button is clicked, update project information in db
+	 * When 'Submit' button is clicked, update project information in db.
 	 */
 	@FXML 
 	public void submitEdit() {
@@ -105,21 +90,18 @@ public class ViewDataController implements Initializable {
 			editDate = dateEdit.getValue().toString();
 		} 
 		
-		int editedID = ProjectDAO.getProjectId(preEditName);
-
-		/*
-		if (isValidDate(editDate) != true) {
-			
+		int editedID = -1;
+		if (clickedProj != null) {
+			editedID = clickedProj.getProjectId();
+			//editedID = ProjectDAO.getProjectId(preEditName);
+		}
+		else {
 			Alert formError = new Alert(Alert.AlertType.ERROR);
 			formError.setTitle("Submit Error");
-			formError.setContentText("Invalid Date Form!");
+			formError.setContentText("Select project to edit");
 			formError.showAndWait();
-
-			nameEdit.clear();
-			dateEdit.clear();
-			desEdit.clear();
 			return;
-		} */
+		}
 	      
 		if (editName.isEmpty() || editDate.isEmpty() ) {
 			// Throw an exception or handle the error as needed
@@ -128,9 +110,6 @@ public class ViewDataController implements Initializable {
 			formError.setTitle("Submit Error");
 			formError.setContentText("Project name or starting date cannot be empty");
 			formError.showAndWait();
-			//nameEdit.clear();
-			//dateEdit.setValue(null);
-			//desEdit.clear();
 			return;
 		}	
 		
@@ -148,6 +127,9 @@ public class ViewDataController implements Initializable {
         actionColumn.setCellFactory(cellFactory);
     }
 	
+	/**
+	 * Delete functionality for projects.
+	 */
 	private class ButtonCell extends TableCell<ProjectBean, String> {
         final Button delButton = new Button("Delete");
         final Button editButton = new Button("Edit");
@@ -174,8 +156,7 @@ public class ViewDataController implements Initializable {
     }
 
 	/**
-	 * When user types into the search bar, the table is automatically re-populated
-	 * with projects that match the substring.
+	 * Update table results as search string is typed.
 	 */
 	@FXML public void search() {
 		String searchStr = searchBar.getText().trim();
@@ -183,8 +164,8 @@ public class ViewDataController implements Initializable {
 	}
 	
 	/**
-	 * To show projects in the table whose name matches the search string.
-	 * @param searchStr The substring to search for in the project's name
+	 * Shows projects in the table whose name matches the search string.
+	 * @param searchStr The substring to search for
 	 */
 	private void showData(String searchStr) {
 		ObservableList<ProjectBean> allProjects = ProjectDAO.getProjectsFromDB();
@@ -206,6 +187,7 @@ public class ViewDataController implements Initializable {
 		dateEdit.setValue(null);
 		desEdit.clear();
 		searchBar.clear();
+		clickedProj = null;
 		showData();
 	}
 
