@@ -62,6 +62,7 @@ public class NewCommentController {
 	    ticketSelection.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 	        @Override
 	        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+	        	clickedComment = null;
 	            showData();
 	        }
 	    });
@@ -213,6 +214,7 @@ public class NewCommentController {
 		
 		Collections.sort(projectNames, String.CASE_INSENSITIVE_ORDER);
 		projSelection.setItems(projectNames);
+		clickedComment = null;
 	}
 	
 	
