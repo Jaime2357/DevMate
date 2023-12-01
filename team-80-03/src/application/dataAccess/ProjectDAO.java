@@ -150,6 +150,17 @@ public class ProjectDAO {
 	        ps.setInt(4, projectId);
 
 	        rowsAffected = ps.executeUpdate();
+	        
+	        try {
+                updateQuery = "UPDATE Tickets SET projName = ? WHERE projID = ?";
+                ps = con.prepareStatement(updateQuery);
+                ps.setString(1, editProjName);
+                ps.setInt(2, projectId);
+                rowsAffected += ps.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
+	        
 	        ps.close();
 
 	        if (rowsAffected > 0) {
