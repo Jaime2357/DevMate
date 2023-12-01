@@ -111,7 +111,7 @@ public class ViewTicketsController implements Initializable{
 	@FXML 
 	public void submitEdit() {
 		String projChangedToName = projSelection.getValue();
-		String editName = nameEdit.getText();
+		String editName = nameEdit.getText().trim();
 		String editDes = desEdit.getText();
 		
 		int editedID = -1;

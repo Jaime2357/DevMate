@@ -83,7 +83,7 @@ public class ViewDataController implements Initializable {
 	 */
 	@FXML 
 	public void submitEdit() {
-		String editName = nameEdit.getText();
+		String editName = nameEdit.getText().trim();
 		String editDes = desEdit.getText();
 		String editDate = "";
 		if (dateEdit.getValue() != null) {
