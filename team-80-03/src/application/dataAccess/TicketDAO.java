@@ -167,18 +167,31 @@ public class TicketDAO {
 	 * @param editDesc The new ticket description
 	 * @return The number of db rows affected
 	 */
-	public static int editTicket(int ticketId, String editName, String editDate, String editDesc) {
+	public static int editTicket(int ticketId, int editProjId, String editProjName, String editName, String editDate, String editDesc) {
 	    int rowsAffected = 0;
 
 	    try {
-	        String updateQuery = "UPDATE Tickets SET ticketName = ?, ticketDate = ?, ticketDesc = ? WHERE ticketID = ?";
+	        String updateQuery = "UPDATE Tickets SET projID = ?, projName = ?, ticketName = ?, ticketDate = ?, ticketDesc = ? WHERE ticketID = ?";
 	        PreparedStatement ps = con.prepareStatement(updateQuery);
-	        ps.setString(1, editName);
-	        ps.setString(2, editDate);
-	        ps.setString(3, editDesc);
-	        ps.setInt(4, ticketId);
-
+	        ps.setInt(1, editProjId);
+	        ps.setString(2, editProjName);
+	        ps.setString(3, editName);
+	        ps.setString(4, editDate);
+	        ps.setString(5, editDesc);
+	        ps.setInt(6, ticketId);
+	        
 	        rowsAffected = ps.executeUpdate();
+	        
+	        try {
+                updateQuery = "UPDATE Comments SET projId = ? WHERE ticketId = ?";
+                ps = con.prepareStatement(updateQuery);
+                ps.setInt(1, editProjId);
+                ps.setInt(2, ticketId);
+                rowsAffected += ps.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
+
 	        ps.close();
 
 	        if (rowsAffected > 0) {

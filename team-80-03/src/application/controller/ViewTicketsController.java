@@ -2,9 +2,12 @@ package application.controller;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
+import application.bean.ProjectBean;
 import application.bean.TicketBean;
+import application.dataAccess.ProjectDAO;
 import application.dataAccess.TicketDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import javafx.scene.control.ChoiceBox;
 
 /**
  * This class is for controlling the View Tickets page of the application.
@@ -41,12 +45,20 @@ public class ViewTicketsController implements Initializable{
 	@FXML TextField searchBar;
 	@FXML TextField nameEdit;
 	@FXML TextArea desEdit;
+	@FXML ChoiceBox<String> projSelection;
 	
 	private String preEditName = "";
 	private TicketBean clickedTicket = null;
+	private String preProjName = "";
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		showData();
+		initializeButtonColumn();
+	}
 	
     /**
-     * To display the Ticket data in the table.
+     * Displays the Ticket data in the table.
      */
     public void showData(){    
     	ObservableList<TicketBean> tickets = TicketDAO.getTicketsFromDB();
@@ -58,12 +70,6 @@ public class ViewTicketsController implements Initializable{
     	
     	ticketsTable.setItems(tickets);
     }
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		showData();
-		initializeButtonColumn();
-	}
 		
 	/**
      * Fill in editing box with clicked ticket information.
@@ -77,7 +83,26 @@ public class ViewTicketsController implements Initializable{
 			//dateEdit.setText(String.valueOf(clickedTicket.getDate()));
 			desEdit.setText(String.valueOf(clickedTicket.getTicketDesc()));
 			preEditName = String.valueOf(clickedTicket.getTicketName());
+			createProjectSelection();
+			preProjName = clickedTicket.getProjectName();
+			projSelection.setValue(String.valueOf(preProjName));
 		}
+	}
+	
+	/**
+	 * Get projects from DB and populate drop down menu with project names,
+	 * sorted alphabetically ascending and case insensitive.
+	 */
+	public void createProjectSelection() {
+		
+		ObservableList<ProjectBean> projects = ProjectDAO.getProjectsFromDB();
+		ObservableList<String> projectNames = FXCollections.observableArrayList();
+		for (ProjectBean p : projects) {
+			projectNames.add(p.getProjectName());
+		}
+		 
+		Collections.sort(projectNames, String.CASE_INSENSITIVE_ORDER);
+		projSelection.setItems(projectNames);
 	}
 
 	/**
@@ -85,6 +110,7 @@ public class ViewTicketsController implements Initializable{
 	 */
 	@FXML 
 	public void submitEdit() {
+		String projChangedToName = projSelection.getValue();
 		String editName = nameEdit.getText();
 		String editDes = desEdit.getText();
 		
@@ -101,7 +127,7 @@ public class ViewTicketsController implements Initializable{
 			return;
 		}
 	      
-		if (editName.isEmpty()) {
+		if (editName.isEmpty() || projChangedToName == null) {
 			// Throw an exception or handle the error as needed
 			// Display an error message to the user
 			Alert formError = new Alert(Alert.AlertType.ERROR);
@@ -111,7 +137,20 @@ public class ViewTicketsController implements Initializable{
 			return;
 		}	
 		
-		TicketDAO.editTicket(editedID, editName, LocalDate.now().toString(), editDes);
+		int projChangedToID = ProjectDAO.getProjectId(projChangedToName);
+		
+		// if the selected project is not the original project the ticket belongs to,
+		// and if ticket name already exists in the project the ticket is being moved to,
+		// alert user to use a different ticket name
+		if (!projChangedToName.equals(preProjName) && TicketDAO.ticketNameExists(editName, projChangedToID)) {
+			Alert formError = new Alert(Alert.AlertType.ERROR);
+			formError.setTitle("Submit Error");
+			formError.setContentText("Ticket name already in use for the project it is being moved to. Use a different ticket name.");
+			formError.showAndWait();
+			return;
+		}
+		
+		TicketDAO.editTicket(editedID, projChangedToID, projChangedToName, editName, LocalDate.now().toString(), editDes);
 		clear();
 		showData();
 	}
@@ -186,6 +225,8 @@ public class ViewTicketsController implements Initializable{
 		desEdit.clear();
 		searchBar.clear();
 		clickedTicket = null;
+		projSelection.getItems().clear();
+		preProjName = "";
 		showData();
 	}
     
